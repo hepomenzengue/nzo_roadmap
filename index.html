@@ -259,6 +259,7 @@ h2.stitle{font-family:'Syne',sans-serif;font-size:clamp(32px,3.4vw,52px);font-we
 .im-be-servers{display:grid;grid-template-columns:165px 1fr 1fr 1fr;gap:7px;}
 .im-be-spacer{background:transparent;}
 .im-be-server{padding:10px 14px;border-radius:10px;text-align:center;font-size:14px;font-weight:600;}
+.im-be-shared{grid-column:span 2;background:linear-gradient(90deg,var(--teal-light) 0%,var(--amber-light) 100%);border:1.5px solid var(--border2);color:var(--text);}
 .be-dev{background:var(--teal-light);border:1.5px solid var(--teal-border);color:#0a5e3a;}
 .be-preprod{background:var(--amber-light);border:1.5px solid var(--amber-border);color:#7c5c00;}
 .be-prod{background:var(--red-light);border:1.5px solid var(--red-border);color:var(--red);}
@@ -787,28 +788,27 @@ h2.stitle{font-family:'Syne',sans-serif;font-size:clamp(32px,3.4vw,52px);font-we
         </div>
         <div class="im-row">
           <div class="im-app-label im-al-vitrine">Site vitrine<div class="im-al-sub">Présentation + liens</div></div>
-          <div class="im-cell"><div class="im-cell-main">dev.n-zo.com</div><div class="im-cell-sub">Validé par l'équipe</div></div>
-          <div class="im-cell"><div class="im-cell-main">staging.n-zo.com</div><div class="im-cell-sub">Validé par les pilotes</div></div>
+          <div class="im-cell"><div class="im-cell-main">dev.n-zo.com</div><div class="im-cell-sub">Équipe technique</div></div>
+          <div class="im-cell"><div class="im-cell-main">staging.n-zo.com</div><div class="im-cell-sub">Equipe hors Tech</div></div>
           <div class="im-cell"><div class="im-cell-main">n-zo.com</div><div class="im-cell-sub">Grand public</div></div>
         </div>
         <div class="im-row">
           <div class="im-app-label im-al-mobile">App mobile<div class="im-al-sub">iOS + Android</div></div>
-          <div class="im-cell"><div class="im-cell-main">Expo Go</div><div class="im-cell-sub">Validation en remote via tunnel</div></div>
-          <div class="im-cell"><div class="im-cell-main">TestFlight (iOS)</div><div class="im-cell-sub">Firebase App Distrib. (Android)</div></div>
-          <div class="im-cell"><div class="im-cell-main">App Store (Apple)</div><div class="im-cell-sub">Play Store (Google)</div></div>
+          <div class="im-cell"><div class="im-cell-main">Expo Go</div><div class="im-cell-sub">Équipe technique</div></div>
+          <div class="im-cell"><div class="im-cell-main">TestFlight (iOS)</div><div class="im-cell-sub">Firebase App Distrib. (Android)-Equipe hors Tech</div></div>
+          <div class="im-cell"><div class="im-cell-main">App Store (Apple)</div><div class="im-cell-sub">Play Store (Google)-Utilistaurs  Pilotes</div></div>
         </div>
         <div class="im-row">
           <div class="im-app-label im-al-admin">Interface admin<div class="im-al-sub">Accès restreint</div></div>
           <div class="im-cell"><div class="im-cell-main">admin-dev.n-zo.com</div><div class="im-cell-sub">Équipe technique</div></div>
-          <div class="im-cell"><div class="im-cell-main">admin-staging.n-zo.com</div><div class="im-cell-sub">Équipe + cofondateurs</div></div>
+          <div class="im-cell"><div class="im-cell-main">admin-staging.n-zo.com</div><div class="im-cell-sub">Equipe hors Tech </div></div>
           <div class="im-cell"><div class="im-cell-main">admin.n-zo.com</div><div class="im-cell-sub">Opérateurs N-zo</div></div>
         </div>
         <div class="im-backend-row">
-          <div class="im-be-label">Backend — un serveur par environnement, partagé par toutes les applications</div>
+          <div class="im-be-label">Backend — DEV + PRÉPROD partagent le serveur actuel de DEV, PROD a son serveur dédié</div>
           <div class="im-be-servers">
             <div class="im-be-spacer"></div>
-            <div class="im-be-server be-dev">Serveur DEV<div class="im-be-sub">DigitalOcean · 2GB/1CPU · SSD · $12/mo · Paiements sandbox</div></div>
-            <div class="im-be-server be-preprod">Serveur PRÉPROD<div class="im-be-sub">DigitalOcean · Config identique prod</div></div>
+            <div class="im-be-server im-be-shared">Serveur DEV + PRÉPROD<div class="im-be-sub">DigitalOcean · 2GB/1CPU · SSD · $12/mo · Paiements sandbox</div></div>
             <div class="im-be-server be-prod">Serveur PROD<div class="im-be-sub">DigitalOcean Premium Intel · 4GB/2CPU NVMe · $32/mo · Vrai argent</div></div>
           </div>
         </div>
@@ -864,8 +864,7 @@ h2.stitle{font-family:'Syne',sans-serif;font-size:clamp(32px,3.4vw,52px);font-we
           <div class="t-name">EPOME NZENGUE Hervé</div>
           <div class="t-role">CTO / Cofondateur — Architecte & développeur backend</div>
           <div class="t-meta">
-            <span class="t-badge tb-o">Cameroun · Remote</span>
-            <span class="t-badge tb-y">Temps plein</span>
+            <span class="t-badge tb-o">Cameroun</span>
             <span class="t-badge tb-o">Cofondateur</span>
           </div>
           <div class="t-resp">
@@ -884,7 +883,6 @@ h2.stitle{font-family:'Syne',sans-serif;font-size:clamp(32px,3.4vw,52px);font-we
           <div class="t-name">Développeur Frontend</div>
           <div class="t-role">Mobile iOS/Android + Site vitrine</div>
           <div class="t-meta">
-            <span class="t-badge tb-t">Sénégal · Remote</span>
             <span class="t-badge tb-t">Freelance</span>
             <span class="t-badge tb-y">À recruter</span>
           </div>
