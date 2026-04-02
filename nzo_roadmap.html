@@ -1,0 +1,1530 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>N-zo — Roadmap Technique MVP</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --bg:#f7f8fc;
+  --bg2:#ffffff;
+  --bg3:#f0f2f8;
+  --card:#ffffff;
+  --border:#e2e6f0;
+  --border2:#d0d5e8;
+  --text:#1a1d2e;
+  --text2:#5a6080;
+  --text3:#9098b8;
+  --accent:#FF6B35;
+  --accent-light:#fff3ee;
+  --accent-border:#ffd5c2;
+  --teal:#12b886;
+  --teal-light:#e6faf3;
+  --teal-border:#9fe5cc;
+  --blue:#4263eb;
+  --blue-light:#eef2ff;
+  --blue-border:#bac8ff;
+  --amber:#f59f00;
+  --amber-light:#fff9e6;
+  --amber-border:#ffd43b;
+  --purple:#7950f2;
+  --purple-light:#f3f0ff;
+  --purple-border:#d0bfff;
+  --pink:#e64980;
+  --pink-light:#fff0f6;
+  --pink-border:#faa2c1;
+  --green:#2f9e44;
+  --green-light:#ebfbee;
+  --green-border:#8ce99a;
+  --red:#e03131;
+  --red-light:#fff5f5;
+  --red-border:#ffc9c9;
+}
+html,body{width:100%;height:100%;background:var(--bg);color:var(--text);font-family:'Plus Jakarta Sans',sans-serif;overflow:hidden;}
+
+/* CURSOR */
+.cursor{position:fixed;width:10px;height:10px;background:var(--accent);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .3s,height .3s;}
+.cursor-ring{position:fixed;width:36px;height:36px;border:1.5px solid rgba(255,107,53,.35);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:transform .12s cubic-bezier(.25,.46,.45,.94);}
+
+/* PROGRESS */
+.progress-bar{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--accent),var(--teal));z-index:1000;transition:width .5s cubic-bezier(.4,0,.2,1);box-shadow:0 0 8px rgba(255,107,53,.4);}
+
+/* NAV DOTS */
+.nav-dots{position:fixed;right:24px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:8px;z-index:1000;}
+.nav-dot{width:7px;height:7px;border-radius:50%;background:var(--border2);cursor:pointer;transition:all .3s;border:none;}
+.nav-dot.active{background:var(--accent);box-shadow:0 0 8px rgba(255,107,53,.5);transform:scale(1.5);}
+.nav-dot:hover{background:var(--teal);}
+
+/* COUNTER */
+.slide-counter{position:fixed;bottom:24px;right:24px;font-family:'Syne',sans-serif;font-size:13px;color:var(--text3);z-index:1000;letter-spacing:.1em;}
+.slide-counter span{color:var(--accent);font-weight:700;}
+
+/* ARROWS */
+.nav-arrow{position:fixed;bottom:24px;z-index:1000;background:var(--card);border:1px solid var(--border);color:var(--text2);width:42px;height:42px;border-radius:50%;font-size:18px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .3s;box-shadow:0 2px 8px rgba(0,0,0,.06);}
+.nav-arrow:hover{background:var(--accent);color:#fff;border-color:var(--accent);box-shadow:0 4px 16px rgba(255,107,53,.3);}
+.nav-prev{left:24px;}
+.nav-next{left:76px;}
+
+/* SLIDES */
+.slides{width:100vw;height:100vh;position:relative;overflow:hidden;}
+.slide{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-start;align-items:center;padding:52px 72px 80px;opacity:0;pointer-events:none;transition:opacity .5s cubic-bezier(.4,0,.2,1);background:var(--bg);overflow-y:auto;overflow-x:hidden;}
+.slide::-webkit-scrollbar{width:5px;}
+.slide::-webkit-scrollbar-track{background:transparent;}
+.slide::-webkit-scrollbar-thumb{background:var(--border2);border-radius:100px;}
+.slide::-webkit-scrollbar-thumb:hover{background:var(--accent);}
+.slide{scrollbar-width:thin;scrollbar-color:var(--border2) transparent;}
+.slide-inner{display:flex;flex-direction:column;justify-content:center;align-items:center;min-height:calc(100vh - 132px);width:100%;}
+.slide-long{display:flex;flex-direction:column;align-items:center;width:100%;}
+.slide.active{opacity:1;pointer-events:all;}
+
+/* ANIMATIONS */
+.slide.active .anim-in{animation:slideUp .6s cubic-bezier(.4,0,.2,1) forwards;}
+.slide.active .anim-in:nth-child(1){animation-delay:.08s;}
+.slide.active .anim-in:nth-child(2){animation-delay:.16s;}
+.slide.active .anim-in:nth-child(3){animation-delay:.24s;}
+.slide.active .anim-in:nth-child(4){animation-delay:.32s;}
+.slide.active .anim-in:nth-child(5){animation-delay:.40s;}
+.slide.active .anim-in:nth-child(6){animation-delay:.48s;}
+.slide.active .anim-in:nth-child(7){animation-delay:.56s;}
+.anim-in{opacity:0;}
+@keyframes slideUp{from{opacity:0;transform:translateY(28px);}to{opacity:1;transform:translateY(0);}}
+@keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-8px);}}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(255,107,53,.2);}50%{box-shadow:0 0 0 8px rgba(255,107,53,0);}}
+
+/* TYPOGRAPHY */
+.slide-tag{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin-bottom:16px;display:flex;align-items:center;gap:8px;}
+.slide-tag::before{content:'';display:block;width:24px;height:2px;background:var(--accent);}
+h2.stitle{font-family:'Syne',sans-serif;font-size:clamp(32px,3.4vw,52px);font-weight:800;line-height:1.1;letter-spacing:-.025em;color:var(--text);margin-bottom:4px;}
+.accent{color:var(--accent);}
+.teal{color:var(--teal);}
+.blue{color:var(--blue);}
+
+/* CARD */
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:22px 24px;box-shadow:0 2px 12px rgba(0,0,0,.04);}
+.card:hover{border-color:var(--accent-border);box-shadow:0 4px 20px rgba(255,107,53,.08);transition:all .3s;}
+
+/* BADGE */
+.badge{display:inline-block;font-size:14px;font-weight:600;padding:4px 11px;border-radius:100px;}
+
+/* KEYBOARD HINT */
+.kb-hint{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);font-size:14px;color:var(--text3);z-index:1000;display:flex;align-items:center;gap:6px;}
+.key{padding:2px 8px;border:1px solid var(--border2);border-radius:4px;font-family:'Syne',sans-serif;font-size:13px;color:var(--text3);}
+
+/* ==================== SLIDE 1 : HERO ==================== */
+#slide-1{background:linear-gradient(135deg,#fff9f6 0%,#f0f8f6 50%,#f5f0ff 100%);}
+.hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:72px;width:100%;max-width:1200px;align-items:center;}
+.hero-logo{font-family:'Syne',sans-serif;font-size:clamp(76px,10vw,124px);font-weight:800;line-height:1;letter-spacing:-.05em;background:linear-gradient(135deg,var(--accent) 0%,#ff9f43 40%,var(--teal) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:float 4s ease-in-out infinite;}
+.hero-badge{display:inline-block;padding:7px 16px;border-radius:100px;background:var(--accent-light);border:1px solid var(--accent-border);font-size:15px;color:var(--accent);font-weight:600;letter-spacing:.04em;margin-bottom:18px;}
+.hero-title{font-family:'Syne',sans-serif;font-size:clamp(26px,2.6vw,42px);font-weight:700;line-height:1.2;margin-bottom:14px;}
+.hero-sub{font-size:18px;color:var(--text2);line-height:1.75;font-weight:400;}
+.hero-meta{display:flex;gap:32px;margin-top:28px;}
+.hero-meta-item{display:flex;flex-direction:column;gap:4px;}
+.hero-meta-val{font-family:'Syne',sans-serif;font-size:30px;font-weight:800;color:var(--teal);}
+.hero-meta-label{font-size:14px;color:var(--text3);letter-spacing:.05em;text-transform:uppercase;}
+.hero-presenter{margin-top:28px;padding:16px 20px;border-radius:12px;background:var(--card);border:1px solid var(--border);display:flex;flex-direction:column;gap:4px;}
+.hero-presenter-role{font-size:14px;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;}
+.hero-presenter-name{font-family:'Syne',sans-serif;font-size:19px;font-weight:700;color:var(--text);}
+.hero-features{display:flex;flex-direction:column;gap:14px;}
+.hero-feat{display:flex;gap:16px;align-items:center;padding:16px 20px;border-radius:12px;background:var(--card);border:1px solid var(--border);box-shadow:0 2px 8px rgba(0,0,0,.04);transition:all .3s;}
+.hero-feat:hover{border-color:var(--accent-border);transform:translateX(6px);}
+.feat-icon{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
+.feat-text strong{display:block;font-size:17px;font-weight:600;margin-bottom:3px;color:var(--text);}
+.feat-text span{font-size:15px;color:var(--text2);}
+
+/* ==================== SLIDE 2 : PROBLEME ==================== */
+.prob-grid{display:grid;grid-template-columns:1fr 1fr;gap:52px;width:100%;max-width:1200px;align-items:start;}
+.prob-items{display:flex;flex-direction:column;gap:16px;margin-top:28px;}
+.prob-item{display:flex;gap:16px;padding:18px 20px;border-radius:12px;background:var(--card);border:1px solid var(--border);border-left:3px solid transparent;transition:all .3s;}
+.prob-item:hover{border-left-color:var(--accent);transform:translateX(4px);}
+.prob-num{font-family:'Syne',sans-serif;font-size:34px;font-weight:800;color:var(--accent);opacity:.25;line-height:1;flex-shrink:0;}
+.prob-text strong{display:block;font-size:17px;font-weight:600;margin-bottom:5px;}
+.prob-text p{font-size:15px;color:var(--text2);line-height:1.65;}
+.solution-box{border-radius:16px;padding:30px;background:linear-gradient(135deg,var(--accent-light),var(--teal-light));border:1px solid var(--accent-border);}
+.sol-title{font-family:'Syne',sans-serif;font-size:21px;font-weight:700;margin-bottom:20px;}
+.sol-point{display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;}
+.sol-dot{width:8px;height:8px;border-radius:50%;background:var(--teal);margin-top:5px;flex-shrink:0;}
+.sol-point p{font-size:16px;color:var(--text2);line-height:1.65;}
+.sol-point p strong{color:var(--text);}
+.eco-box{margin-top:20px;padding:16px;border-radius:10px;background:var(--card);border:1px solid var(--accent-border);}
+.eco-title{font-size:15px;font-weight:700;color:var(--accent);margin-bottom:5px;}
+.eco-desc{font-size:15px;color:var(--text2);line-height:1.6;}
+
+/* ==================== SLIDES 3a/3b : USE CASES ==================== */
+.uc-wrap{width:100%;max-width:1100px;}
+.uc-header{margin-bottom:22px;}
+.uc-box{border-radius:12px;padding:16px 20px;background:var(--amber-light);border:1.5px solid var(--amber-border);margin-bottom:18px;}
+.uc-box-title{font-size:15px;font-weight:700;color:var(--amber);margin-bottom:5px;}
+.uc-box-desc{font-size:15px;color:#7c5c00;line-height:1.75;}
+.uc-actors{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;}
+.uc-actor{border-radius:12px;overflow:hidden;border:1px solid var(--border);background:var(--card);}
+.uc-actor-header{padding:10px 16px;font-family:'Syne',sans-serif;font-size:15px;font-weight:700;}
+.ah-af{background:var(--teal-light);color:#0a5e3a;}
+.ah-eu{background:var(--blue-light);color:#2641a0;}
+.uc-actor-body{padding:14px 16px;}
+.uc-actor-name{font-size:16px;font-weight:600;margin-bottom:3px;}
+.uc-actor-sub{font-size:14px;color:var(--text2);margin-bottom:10px;line-height:1.5;}
+.wallet-badge{display:inline-flex;align-items:center;gap:5px;padding:4px 12px;border-radius:100px;font-size:14px;font-weight:600;}
+.wb-xaf{background:var(--teal-light);color:#0a5e3a;}
+.wb-gbp{background:var(--blue-light);color:#2641a0;}
+.wb-eur{background:var(--purple-light);color:#4a2db8;}
+.wb-xof{background:var(--green-light);color:#1a6b2e;}
+.uc-omnibus{margin-top:10px;font-size:14px;color:var(--text3);padding:7px 12px;background:var(--bg3);border-radius:8px;line-height:1.5;}
+.ledger-box{border-radius:12px;border:2px dashed var(--purple-border);padding:16px;background:var(--purple-light);margin-bottom:14px;position:relative;}
+.ledger-box-label{position:absolute;top:-10px;left:14px;background:var(--bg);padding:0 8px;font-size:14px;font-weight:700;color:var(--purple);}
+.ledger-note{font-size:14px;color:var(--purple);margin-bottom:12px;line-height:1.6;}
+.ledger-accs{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;}
+.ledger-acc{border-radius:8px;padding:8px;border:1px solid var(--purple-border);background:var(--card);text-align:center;}
+.ledger-acc-n{font-size:13px;color:var(--purple);font-weight:700;}
+.ledger-acc-v{font-size:15px;color:var(--blue);font-weight:700;margin-top:3px;}
+.uc-steps{display:flex;flex-direction:column;gap:7px;}
+.uc-step{display:flex;gap:12px;align-items:flex-start;}
+.uc-step-num{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#fff;flex-shrink:0;}
+.uc-step-body{flex:1;border-radius:10px;border:1px solid var(--border);padding:9px 14px;background:var(--card);}
+.uc-step-label{font-size:15px;font-weight:600;margin-bottom:3px;}
+.uc-step-detail{font-size:14px;color:var(--text2);line-height:1.55;}
+.uc-step-tag{display:inline-block;font-size:13px;margin-top:5px;padding:3px 9px;border-radius:8px;font-weight:600;}
+.tx-box{border-radius:12px;border:1.5px solid var(--green-border);padding:14px 16px;background:var(--green-light);margin-top:10px;}
+.tx-title{font-size:15px;font-weight:700;color:var(--green);margin-bottom:10px;}
+.tx-grid{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:center;}
+.tx-side{border-radius:8px;padding:10px;border:1px solid var(--green-border);background:var(--card);}
+.tx-slabel{font-size:13px;color:var(--green);font-weight:700;margin-bottom:5px;}
+.tx-entry{font-size:14px;line-height:1.8;}
+.debit{color:var(--red);font-weight:600;}
+.credit{color:var(--green);font-weight:600;}
+.tx-arr{text-align:center;font-size:22px;color:var(--teal);}
+.tx-note{font-size:13px;color:var(--green);margin-top:6px;text-align:center;font-style:italic;}
+.result-box{border-radius:10px;border:1.5px solid var(--blue-border);padding:12px 16px;background:var(--blue-light);margin-top:10px;}
+.result-title{font-size:14px;font-weight:700;color:var(--blue);margin-bottom:8px;}
+.result-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.result-card{border-radius:8px;padding:9px 12px;border:1px solid var(--blue-border);background:var(--card);}
+.result-name{font-size:13px;color:var(--blue);font-weight:700;margin-bottom:3px;}
+.result-val{font-size:14px;color:var(--text);}
+.key-note{border-radius:8px;padding:10px 14px;background:var(--green-light);border-left:3px solid var(--green);font-size:14px;color:#1a5e2e;line-height:1.6;margin-top:10px;}
+.scope-note{border-radius:8px;padding:10px 14px;background:var(--amber-light);border-left:3px solid var(--amber);font-size:14px;color:#7c5c00;line-height:1.6;margin-top:8px;}
+.connector-v{width:2px;height:6px;background:var(--border2);margin-left:13px;}
+
+/* ==================== SLIDE 4 : ARCHITECTURE ==================== */
+.arch-wrap{width:100%;max-width:1100px;}
+.arch-cols{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:28px;}
+.arch-diagram{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;}
+.arch-diag-header{padding:13px 18px;font-family:'Syne',sans-serif;font-size:15px;font-weight:700;display:flex;justify-content:space-between;align-items:center;}
+.adh-micro{background:var(--pink-light);color:var(--pink);border-bottom:1px solid var(--pink-border);}
+.adh-mono{background:var(--teal-light);color:var(--teal);border-bottom:1px solid var(--teal-border);}
+.arch-diag-body{padding:18px;}
+.dn-clients{display:flex;gap:8px;margin-bottom:12px;justify-content:center;}
+.dn-client{padding:7px 14px;border-radius:8px;font-size:14px;font-weight:500;background:var(--bg3);border:1px solid var(--border);color:var(--text2);}
+.dn-arrow-center{text-align:center;font-size:16px;color:var(--text3);margin:5px 0;}
+.dn-gateway{padding:10px 16px;border-radius:8px;font-size:15px;font-weight:600;text-align:center;margin-bottom:10px;}
+.dn-gw-teal{background:var(--teal-light);border:1.5px solid var(--teal-border);color:#0a5e3a;}
+.dn-bus{padding:9px 16px;border-radius:8px;font-size:14px;font-weight:600;text-align:center;margin-bottom:12px;background:var(--amber-light);border:1px solid var(--amber-border);color:#7c5c00;}
+.dn-services{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:12px;}
+.dn-svc{padding:9px;border-radius:8px;font-size:14px;font-weight:600;text-align:center;}
+.svc-micro{background:var(--pink-light);border:1px solid var(--pink-border);color:var(--pink);}
+.svc-mono{background:var(--purple-light);border:1px solid var(--purple-border);color:var(--purple);}
+.svc-sub{font-size:13px;font-weight:400;color:var(--text3);display:block;margin-top:2px;}
+.dn-dbs{display:flex;gap:5px;margin-bottom:10px;flex-wrap:wrap;}
+.dn-db{padding:5px 9px;border-radius:6px;font-size:13px;background:var(--bg3);border:1px solid var(--border);color:var(--text3);}
+.dn-mono-container{border:1.5px dashed var(--purple-border);border-radius:10px;padding:12px;margin-bottom:10px;background:var(--purple-light);}
+.dn-mono-label{font-size:13px;font-weight:700;color:var(--purple);margin-bottom:10px;}
+.dn-mono-modules{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:6px;}
+.dn-mono-row2{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
+.dn-evolution{font-size:13px;color:var(--teal);text-align:center;padding:6px 8px;border-radius:6px;background:var(--teal-light);border:1px dashed var(--teal-border);margin-top:6px;}
+.dn-db-single{padding:9px;border-radius:8px;font-size:14px;font-weight:600;text-align:center;margin-bottom:8px;background:var(--teal-light);border:1.5px solid var(--teal-border);color:#0a5e3a;}
+.dn-ext{font-size:13px;text-align:center;color:var(--text3);padding:6px;border-radius:6px;border:1px dashed var(--border2);background:var(--bg3);}
+.dn-note{margin-top:10px;padding:9px 12px;border-radius:8px;font-size:14px;line-height:1.55;}
+.note-micro{background:var(--pink-light);color:var(--pink);}
+.note-mono{background:var(--teal-light);color:#0a5e3a;}
+
+/* ==================== SLIDE 5 : STACK/INFRA ==================== */
+.stack-wrap{width:100%;max-width:1100px;}
+.infra-matrix{margin-top:24px;}
+.im-header-row{display:grid;grid-template-columns:165px 1fr 1fr 1fr;gap:7px;margin-bottom:9px;}
+.im-col-header{padding:10px 14px;border-radius:9px;text-align:center;font-family:'Syne',sans-serif;font-size:14px;font-weight:700;}
+.im-dev{background:var(--teal-light);color:#0a5e3a;border:1px solid var(--teal-border);}
+.im-preprod{background:var(--amber-light);color:#7c5c00;border:1px solid var(--amber-border);}
+.im-prod{background:var(--red-light);color:var(--red);border:1px solid var(--red-border);}
+.im-row{display:grid;grid-template-columns:165px 1fr 1fr 1fr;gap:7px;margin-bottom:7px;}
+.im-app-label{padding:12px 14px;border-radius:10px;font-size:15px;font-weight:700;display:flex;flex-direction:column;gap:2px;justify-content:center;}
+.im-al-vitrine{background:var(--purple-light);border:1px solid var(--purple-border);color:var(--purple);}
+.im-al-mobile{background:var(--teal-light);border:1px solid var(--teal-border);color:#0a5e3a;}
+.im-al-admin{background:var(--blue-light);border:1px solid var(--blue-border);color:var(--blue);}
+.im-al-sub{font-size:13px;font-weight:400;color:inherit;opacity:.7;}
+.im-cell{padding:10px 14px;border-radius:10px;background:var(--card);border:1px solid var(--border);font-size:14px;}
+.im-cell-main{font-weight:600;color:var(--text);margin-bottom:3px;}
+.im-cell-sub{font-size:13px;color:var(--text3);}
+.im-backend-row{margin-top:16px;border-top:1.5px dashed var(--border2);padding-top:16px;}
+.im-be-label{font-size:14px;color:var(--text3);text-align:center;margin-bottom:9px;}
+.im-be-servers{display:grid;grid-template-columns:165px 1fr 1fr 1fr;gap:7px;}
+.im-be-spacer{background:transparent;}
+.im-be-server{padding:10px 14px;border-radius:10px;text-align:center;font-size:14px;font-weight:600;}
+.be-dev{background:var(--teal-light);border:1.5px solid var(--teal-border);color:#0a5e3a;}
+.be-preprod{background:var(--amber-light);border:1.5px solid var(--amber-border);color:#7c5c00;}
+.be-prod{background:var(--red-light);border:1.5px solid var(--red-border);color:var(--red);}
+.im-be-sub{font-size:13px;font-weight:400;margin-top:3px;}
+.pipeline-box{margin-top:16px;padding:13px 18px;border-radius:10px;background:var(--card);border:1px solid var(--border);display:flex;align-items:center;gap:9px;flex-wrap:wrap;}
+.pl-label{font-size:14px;font-weight:700;color:var(--text);margin-right:4px;white-space:nowrap;}
+.pl-step{font-size:14px;color:var(--text2);padding:5px 12px;border-radius:100px;background:var(--bg3);border:1px solid var(--border);}
+.pl-arrow{font-size:15px;color:var(--text3);}
+
+.tech-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:18px;}
+.tech-cat{border-radius:12px;border:1px solid var(--border);background:var(--card);overflow:hidden;}
+.tech-cat-h{padding:10px 16px;font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;}
+.tch-back{background:var(--accent-light);color:var(--accent);}
+.tch-front{background:var(--teal-light);color:var(--teal);}
+.tch-infra{background:var(--amber-light);color:var(--amber);}
+.tch-services{background:var(--blue-light);color:var(--blue);}
+.tch-deploy{background:var(--pink-light);color:var(--pink);}
+.tch-monitor{background:var(--purple-light);color:var(--purple);}
+.tech-items{padding:10px 14px;display:flex;flex-direction:column;gap:7px;}
+.tech-item{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;border-radius:8px;background:var(--bg3);}
+.tech-name{font-size:15px;font-weight:600;}
+.tech-why{font-size:13px;color:var(--text3);}
+.tech-badge{font-size:13px;padding:3px 8px;border-radius:100px;font-weight:600;}
+
+/* ==================== SLIDE 6 : EQUIPE ==================== */
+.team-wrap{width:100%;max-width:960px;}
+.team-grid{display:grid;grid-template-columns:1fr 1fr;gap:26px;margin-top:28px;}
+.team-card{border-radius:18px;padding:30px;border:1px solid var(--border);background:var(--card);position:relative;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.04);}
+.team-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
+.tc-cto::before{background:linear-gradient(90deg,var(--accent),#ff9f43);}
+.tc-dev::before{background:linear-gradient(90deg,var(--teal),var(--blue));}
+.t-avatar{width:50px;height:50px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:16px;font-weight:800;margin-bottom:16px;}
+.ta-cto{background:var(--accent-light);color:var(--accent);}
+.ta-dev{background:var(--teal-light);color:var(--teal);}
+.t-name{font-family:'Syne',sans-serif;font-size:19px;font-weight:700;margin-bottom:3px;}
+.t-role{font-size:15px;color:var(--text2);margin-bottom:16px;}
+.t-meta{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:18px;}
+.t-badge{font-size:14px;padding:4px 10px;border-radius:100px;border:1px solid;}
+.tb-o{border-color:var(--accent-border);color:var(--accent);background:var(--accent-light);}
+.tb-t{border-color:var(--teal-border);color:var(--teal);background:var(--teal-light);}
+.tb-y{border-color:var(--amber-border);color:var(--amber);background:var(--amber-light);}
+.t-resp{display:flex;flex-direction:column;gap:7px;}
+.t-resp-item{display:flex;gap:10px;font-size:15px;color:var(--text2);}
+.t-resp-item::before{content:'→';color:var(--accent);flex-shrink:0;}
+.t-contract{margin-top:18px;padding:14px;border-radius:10px;background:var(--teal-light);border:1px solid var(--teal-border);font-size:14px;color:#0a5e3a;line-height:1.6;}
+.post-mvp-box{margin-top:22px;padding:18px 22px;border-radius:10px;background:var(--bg3);border:1px dashed var(--border2);}
+.post-mvp-title{font-size:14px;color:var(--text3);letter-spacing:.08em;text-transform:uppercase;margin-bottom:10px;}
+.post-mvp-items{display:flex;gap:10px;}
+.post-mvp-item{font-size:15px;color:var(--text2);padding:6px 14px;border-radius:100px;background:var(--card);border:1px solid var(--border);}
+
+/* ==================== SLIDE 7 : ROADMAP ==================== */
+#slide-7{padding:40px 60px;}
+.rm-wrap{width:100%;max-width:1200px;}
+.rm-list{display:flex;flex-direction:column;gap:7px;margin-top:18px;}
+.rm-iter{border-radius:12px;border:1px solid var(--border);background:var(--card);overflow:hidden;}
+.rm-iter-header{display:flex;align-items:center;gap:14px;padding:14px 18px;cursor:pointer;transition:background .2s;user-select:none;}
+.rm-iter-header:hover{background:var(--bg3);}
+.rm-iter-num{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:15px;font-weight:700;flex-shrink:0;}
+.ri1{background:var(--teal-light);color:var(--teal);}
+.ri2{background:var(--accent-light);color:var(--accent);}
+.ri3{background:var(--purple-light);color:var(--purple);}
+.ri4{background:var(--amber-light);color:var(--amber);}
+.ri5{background:var(--pink-light);color:var(--pink);}
+.rm-iter-title{flex:1;font-size:16px;font-weight:600;}
+.rm-iter-period{font-size:14px;color:var(--text3);font-family:'Syne',sans-serif;}
+.rm-iter-arrow{font-size:16px;color:var(--text3);transition:transform .3s;}
+.rm-iter-arrow.open{transform:rotate(180deg);}
+.rm-iter-body{display:none;padding:0 18px 16px;}
+.rm-iter-body.open{display:block;}
+.rm-sprints{display:flex;flex-direction:column;gap:6px;margin-top:8px;}
+.rm-sprint{border-radius:8px;border:1px solid var(--border);background:var(--bg3);overflow:hidden;}
+.rm-sprint-header{display:flex;align-items:center;gap:10px;padding:9px 14px;cursor:pointer;transition:background .2s;}
+.rm-sprint-header:hover{background:var(--border);}
+.rm-sprint-label{font-size:14px;font-weight:600;color:var(--text2);flex:1;}
+.rm-sprint-period{font-size:13px;color:var(--text3);}
+.rm-sprint-arrow{font-size:14px;color:var(--text3);transition:transform .2s;}
+.rm-sprint-arrow.open{transform:rotate(180deg);}
+.rm-sprint-body{display:none;padding:10px 14px;}
+.rm-sprint-body.open{display:block;}
+.rm-interfaces{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+.rm-iface{border-radius:8px;padding:10px;border:1px solid var(--border);background:var(--card);}
+.rm-ilabel{font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-bottom:7px;padding:3px 8px;border-radius:8px;display:inline-block;}
+.ril-mob{background:var(--teal-light);color:var(--teal);}
+.ril-adm{background:var(--amber-light);color:var(--amber);}
+.ril-web{background:var(--purple-light);color:var(--purple);}
+.rm-feat{font-size:14px;color:var(--text2);margin:3px 0;padding-left:12px;position:relative;line-height:1.5;}
+.rm-feat::before{content:'·';position:absolute;left:2px;color:var(--text3);}
+.rm-feat.core::before{content:'★';color:var(--accent);font-size:9px;top:1px;}
+.rm-feat.none{color:var(--text3);font-style:italic;}
+.marge-box{border-radius:12px;padding:16px 20px;border:1.5px dashed var(--border2);background:var(--bg3);margin-top:7px;display:flex;justify-content:space-between;align-items:center;}
+.marge-title{font-size:16px;font-weight:600;color:var(--amber);}
+.marge-sub{font-size:14px;color:var(--text3);margin-top:3px;}
+.marge-tags{display:flex;gap:7px;flex-wrap:wrap;}
+.marge-tag{font-size:14px;color:var(--text2);padding:4px 12px;border-radius:100px;background:var(--card);border:1px solid var(--border);}
+
+/* ==================== SLIDE 8 : BUDGET ==================== */
+#slide-8{padding:44px 60px;}
+.budget-wrap{width:100%;max-width:1100px;}
+.budget-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:22px;}
+.budget-section{border-radius:12px;border:1px solid var(--border);background:var(--card);overflow:hidden;}
+.budget-sh{padding:11px 16px;font-size:14px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;}
+.bsh-infra{background:var(--accent-light);color:var(--accent);}
+.bsh-services{background:var(--teal-light);color:var(--teal);}
+.bsh-licences{background:var(--amber-light);color:var(--amber);}
+.bsh-team{background:var(--blue-light);color:var(--blue);}
+.budget-rows{padding:6px 0;}
+.budget-row{display:flex;justify-content:space-between;align-items:center;padding:9px 16px;border-bottom:1px solid var(--bg3);}
+.budget-row:last-child{border-bottom:none;}
+.budget-row:hover{background:var(--bg3);}
+.bl{font-size:15px;color:var(--text);}
+.bd{font-size:13px;color:var(--text3);}
+.ba{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;color:var(--text);}
+.bfree{font-size:13px;padding:3px 9px;border-radius:100px;background:var(--green-light);color:var(--green);font-weight:600;}
+.bvar{font-size:13px;padding:3px 9px;border-radius:100px;background:var(--teal-light);color:var(--teal);font-weight:600;}
+.budget-totals{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:18px;}
+.btotal-card{border-radius:14px;padding:20px 22px;border:1px solid var(--border);background:var(--card);text-align:center;box-shadow:0 2px 10px rgba(0,0,0,.04);}
+.btotal-card.hl{background:linear-gradient(135deg,var(--accent-light),var(--amber-light));border-color:var(--accent-border);animation:pulse 3s ease-in-out infinite;}
+.btotal-label{font-size:13px;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;}
+.btotal-val{font-family:'Syne',sans-serif;font-size:28px;font-weight:800;}
+.btotal-sub{font-size:13px;color:var(--text3);margin-top:4px;}
+
+/* ==================== SLIDE 9 : RISQUES ==================== */
+.risks-wrap{width:100%;max-width:1100px;}
+.risks-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:26px;}
+.risk-card{border-radius:12px;padding:20px;border:1px solid var(--border);background:var(--card);position:relative;overflow:hidden;transition:transform .3s;}
+.risk-card:hover{transform:translateY(-3px);}
+.risk-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
+.rc-crit::before{background:linear-gradient(90deg,var(--red),#ff6b6b);}
+.rc-mod::before{background:linear-gradient(90deg,var(--amber),var(--accent));}
+.rc-low::before{background:linear-gradient(90deg,var(--teal),var(--blue));}
+.risk-level{font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px;}
+.rl-c{color:var(--red);}
+.rl-m{color:var(--amber);}
+.rl-l{color:var(--teal);}
+.risk-title{font-size:16px;font-weight:600;margin-bottom:10px;line-height:1.35;}
+.risk-impact{font-size:14px;color:var(--text2);margin-bottom:10px;line-height:1.6;}
+.risk-mitigation{font-size:14px;color:var(--green);line-height:1.6;padding:10px;background:var(--green-light);border-radius:8px;}
+.risk-mitigation::before{content:'→ ';}
+
+/* ==================== SLIDE 10 : QUESTIONS ==================== */
+.q-wrap{width:100%;max-width:900px;}
+.q-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:30px;}
+.q-card{border-radius:14px;padding:24px;border:1px solid var(--border);background:var(--card);transition:all .3s;cursor:default;}
+.q-card:hover{border-color:var(--accent-border);transform:scale(1.02);}
+.q-num{font-family:'Syne',sans-serif;font-size:38px;font-weight:800;color:var(--accent);opacity:.15;line-height:1;margin-bottom:8px;}
+.q-title{font-size:17px;font-weight:600;margin-bottom:9px;}
+.q-desc{font-size:15px;color:var(--text2);line-height:1.65;}
+.closing{text-align:center;margin-top:34px;}
+.closing-logo{font-family:'Syne',sans-serif;font-size:50px;font-weight:800;background:linear-gradient(135deg,var(--accent),var(--teal));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.closing-sub{font-size:16px;color:var(--text2);margin-top:7px;}
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursor-ring"></div>
+<div class="progress-bar" id="progress-bar"></div>
+<div class="nav-dots" id="nav-dots"></div>
+<div class="slide-counter"><span id="current-slide">1</span> / <span id="total-slides">11</span></div>
+<button class="nav-arrow nav-prev" id="nav-prev">←</button>
+<button class="nav-arrow nav-next" id="nav-next">→</button>
+<div class="kb-hint"><span class="key">←</span><span class="key">→</span> naviguer · <span class="key">Espace</span> suivant</div>
+
+<div class="slides" id="slides">
+
+<!-- ======== SLIDE 1 : HERO ======== -->
+<div class="slide active" id="slide-1">
+  <div class="hero-grid">
+    <div>
+      <div class="anim-in"><div class="hero-logo">N-zo</div></div>
+      <div class="anim-in">
+        <div class="hero-badge">Roadmap Technique MVP</div>
+        <div class="hero-title">Plateforme de change <span class="accent">peer-to-peer</span><br>Afrique ↔ Europe</div>
+      </div>
+      <div class="anim-in"><p class="hero-sub">Marketplace de devises — mise en relation automatisée des acheteurs et vendeurs. Les deux corridors couverts : Europe → Afrique et Afrique → Europe.</p></div>
+      <div class="anim-in">
+        <div class="hero-meta">
+          <div class="hero-meta-item"><span class="hero-meta-val">6</span><span class="hero-meta-label">Mois · MVP</span></div>
+          <div class="hero-meta-item"><span class="hero-meta-val">500</span><span class="hero-meta-label">Users pilotes</span></div>
+          <div class="hero-meta-item"><span class="hero-meta-val">Oct.</span><span class="hero-meta-label">Lancement 2026</span></div>
+        </div>
+      </div>
+      <div class="anim-in">
+        <div class="hero-presenter">
+          <span class="hero-presenter-role">Présenté par le CTO</span>
+          <span class="hero-presenter-name">EPOME NZENGUE Hervé</span>
+        </div>
+      </div>
+    </div>
+    <div class="hero-features">
+      <div class="anim-in">
+        <div class="hero-feat">
+          <div class="feat-icon" style="background:var(--accent-light)">💱</div>
+          <div class="feat-text"><strong>Matching P2P automatisé</strong><span>Deux besoins opposés, une seule mise en relation instantanée</span></div>
+        </div>
+      </div>
+      <div class="anim-in">
+        <div class="hero-feat">
+          <div class="feat-icon" style="background:var(--teal-light)">🌍</div>
+          <div class="feat-text"><strong>Corridors Afrique ↔ Europe</strong><span>XAF, XOF, NGN, KES ↔ EUR, GBP, USD, CAD</span></div>
+        </div>
+      </div>
+      <div class="anim-in">
+        <div class="hero-feat">
+          <div class="feat-icon" style="background:var(--purple-light)">📒</div>
+          <div class="feat-text"><strong>Ledger interne — miroir des opérateurs</strong><span>Les soldes s'ajustent en interne, sans transfert entre utilisateurs</span></div>
+        </div>
+      </div>
+      <div class="anim-in">
+        <div class="hero-feat">
+          <div class="feat-icon" style="background:var(--blue-light)">🔒</div>
+          <div class="feat-text"><strong>KYC & AML intégrés</strong><span>Conformité FCA UK dès le lancement via partenaire EMI</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======== SLIDE 2 : PROBLÈME ======== -->
+<div class="slide" id="slide-2">
+  <div class="prob-grid">
+    <div>
+      <div class="anim-in"><div class="slide-tag">Analyse du marché</div></div>
+      <div class="anim-in"><h2 class="stitle">Le problème que<br><span class="accent">N-zo résout</span></h2></div>
+      <div class="prob-items">
+        <div class="anim-in">
+          <div class="prob-item">
+            <div class="prob-num">01</div>
+            <div class="prob-text"><strong>Taux bancaires défavorables</strong><p>Les banques imposent des marges de 3 à 8% sur les devises africaines. N-zo permet aux utilisateurs de négocier leurs propres taux.</p></div>
+          </div>
+        </div>
+        <div class="anim-in">
+          <div class="prob-item">
+            <div class="prob-num">02</div>
+            <div class="prob-text"><strong>Afrique → Europe : corridor inexploité</strong><p>Les solutions existantes ne couvrent que le sens Europe → Afrique. N-zo couvre les deux directions grâce au modèle P2P.</p></div>
+          </div>
+        </div>
+        <div class="anim-in">
+          <div class="prob-item">
+            <div class="prob-num">03</div>
+            <div class="prob-text"><strong>Marché fragmenté et opaque</strong><p>Pas de marketplace transparente pour les devises africaines. N-zo crée un marché visible, compétitif et traçable.</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="anim-in">
+      <div class="solution-box">
+        <div class="sol-title">La solution <span class="accent">N-zo</span></div>
+        <div class="sol-point"><div class="sol-dot"></div><p><strong>Modèle P2P pur</strong> — les utilisateurs publient leurs offres, le système les matche. Deux besoins opposés se rencontrent, aucun intermédiaire dans la transaction.</p></div>
+        <div class="sol-point"><div class="sol-dot"></div><p><strong>Ledger interne</strong> — miroir virtuel exact des opérateurs financiers partenaires. Les soldes s'ajustent en interne. Les fonds réels ne bougent qu'au dépôt.</p></div>
+        <div class="sol-point"><div class="sol-dot"></div><p><strong>Change direct fallback</strong> — si aucun match, N-zo propose le change au taux du marché. Service disponible en permanence.</p></div>
+        <div class="sol-point"><div class="sol-dot"></div><p><strong>Double corridor couvert</strong> — diaspora africaine en Europe ET entrepreneurs africains. Les deux sens sont opérationnels dès le MVP.</p></div>
+        <div class="eco-box">
+          <div class="eco-title">Modèle économique</div>
+          <div class="eco-desc">Commission sur chaque transaction P2P + commission sur le change direct plateforme. <strong>Taux de commission à définir</strong> — fera l'objet d'une décision d'équipe.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======== SLIDE 3a : USE CASE 1 ======== -->
+<div class="slide" id="slide-3a">
+  <div class="uc-wrap">
+    <div class="uc-header">
+      <div class="anim-in"><div class="slide-tag" style="justify-content:left;">Comment ça marche</div></div>
+      <div class="anim-in"><h2 class="stitle">Les parents au Cameroun paient la scolarité<br>de leur fille <span class="accent">à Lyon via N-zo</span></h2></div>
+    </div>
+    <div class="anim-in">
+      <div class="uc-box">
+        <div class="uc-box-title">Use case — Cameroun → France</div>
+        <div class="uc-box-desc">Amadou & Fatima (Yaoundé) veulent envoyer 375 000 XAF à leur fille Chloé (Lyon) pour payer sa scolarité. Chloé a besoin de 500 EUR. Via N-zo, Pierre (Lyon) qui veut des XAF pour un voyage au Cameroun est matchée avec Amadou. Aucun virement international.</div>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;">
+      <div class="anim-in">
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <div class="uc-actors" style="grid-template-columns:1fr;">
+            <div class="uc-actor">
+              <div class="uc-actor-header ah-af">Amadou & Fatima — Yaoundé (XAF)</div>
+              <div class="uc-actor-body">
+                <div class="uc-actor-name">Parents de Chloé</div>
+                <div class="uc-actor-sub">Compte N-zo · KYC CNI camerounaise · Dépôt via Orange Money</div>
+                <span class="wallet-badge wb-xaf">375 000 XAF sur N-zo</span>
+                <div class="uc-omnibus">Compte omnibus N-zo chez Flutterwave · Amadou ne le voit pas</div>
+              </div>
+            </div>
+          </div>
+          <div class="uc-actor">
+            <div class="uc-actor-header ah-eu">Pierre — Lyon (EUR)</div>
+            <div class="uc-actor-body">
+              <div class="uc-actor-name">Voyageur, veut des XAF</div>
+              <div class="uc-actor-sub">Compte N-zo · KYC passeport FR · Dépôt via Stripe</div>
+              <span class="wallet-badge wb-eur">500 EUR sur N-zo</span>
+              <div class="uc-omnibus">Compte omnibus N-zo chez EMI UK · Pierre ne le voit pas</div>
+            </div>
+          </div>
+          <div class="ledger-box" style="margin-bottom:0;">
+            <div class="ledger-box-label">Ledger N-zo — Miroir virtuel</div>
+            <div class="ledger-note">Chaque XAF ou EUR déposé chez un opérateur crée son équivalent dans le ledger.</div>
+            <div class="ledger-accs">
+              <div class="ledger-acc"><div class="ledger-acc-n">Amadou</div><div class="ledger-acc-v">375 000 XAF</div></div>
+              <div class="ledger-acc"><div class="ledger-acc-n">Pierre</div><div class="ledger-acc-v">500 EUR</div></div>
+              <div class="ledger-acc"><div class="ledger-acc-n">Chloé</div><div class="ledger-acc-v">0 EUR</div></div>
+              <div class="ledger-acc"><div class="ledger-acc-n">…</div><div class="ledger-acc-v">…</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="anim-in">
+        <div class="uc-steps">
+          <div class="uc-step"><div class="uc-step-num" style="background:var(--teal);">1</div><div class="uc-step-body"><div class="uc-step-label">Inscription & KYC</div><div class="uc-step-detail">Sumsub adapte les documents selon le pays. Ledger crée automatiquement un compte.</div><span class="uc-step-tag" style="background:var(--purple-light);color:var(--purple);">Automatique — aucune action manuelle</span></div></div>
+          <div class="connector-v"></div>
+          <div class="uc-step"><div class="uc-step-num" style="background:var(--blue);">2</div><div class="uc-step-body"><div class="uc-step-label">Dépôt de fonds</div><div class="uc-step-detail">Amadou dépose via Orange Money → omnibus Flutterwave. Pierre dépose via Stripe → omnibus EMI UK. Ledger crédité en miroir.</div><span class="uc-step-tag" style="background:var(--blue-light);color:var(--blue);">Fonds réels chez l'opérateur → Ledger miroir</span></div></div>
+          <div class="connector-v"></div>
+          <div class="uc-step"><div class="uc-step-num" style="background:var(--purple);">3</div><div class="uc-step-body"><div class="uc-step-label">Publication & blocage</div><div class="uc-step-detail">Amadou publie : "Je vends 375 000 XAF contre EUR". Pierre publie : "Je vends 500 EUR contre XAF". Fonds bloqués en escrow virtuel.</div><span class="uc-step-tag" style="background:var(--purple-light);color:var(--purple);">Ledger — fonds bloqués escrow</span></div></div>
+          <div class="connector-v"></div>
+          <div class="uc-step"><div class="uc-step-num" style="background:var(--amber);">4</div><div class="uc-step-body"><div class="uc-step-label">Matching + désignation bénéficiaire</div><div class="uc-step-detail">Match détecté. Amadou désigne Chloé comme bénéficiaire des EUR. Notification WebSocket temps réel aux parties.</div><span class="uc-step-tag" style="background:var(--amber-light);color:var(--amber);">Notification temps réel · WebSocket</span></div></div>
+          <div class="connector-v"></div>
+          <div class="uc-step"><div class="uc-step-num" style="background:var(--teal);">5</div><div class="uc-step-body"><div class="uc-step-label">Exécution atomique</div><div class="uc-step-detail">Ledger : Amadou −375 000 XAF, Chloé +500 EUR, Pierre −500 EUR, Pierre +375 000 XAF. Tout en une opération.</div><span class="uc-step-tag" style="background:var(--teal-light);color:var(--teal);">Opération atomique — tout ou rien</span></div></div>
+        </div>
+      </div>
+      <div class="anim-in">
+        <div class="tx-box">
+          <div class="tx-title">Exécution dans le ledger</div>
+          <div class="tx-grid">
+            <div class="tx-side"><div class="tx-slabel">Amadou → Chloé</div><div class="tx-entry"><span class="debit">− 375 000 XAF</span></div><div class="tx-entry"><span class="credit">+ 500 EUR</span> (Chloé)</div></div>
+            <div class="tx-arr">⇄</div>
+            <div class="tx-side"><div class="tx-slabel">Pierre</div><div class="tx-entry"><span class="debit">− 500 EUR</span></div><div class="tx-entry"><span class="credit">+ 375 000 XAF</span></div></div>
+          </div>
+          <div class="tx-note">Aucun virement international · Uniquement des écritures dans le ledger</div>
+        </div>
+        <div class="result-box" style="margin-top:8px;">
+          <div class="result-title">Résultat final</div>
+          <div class="result-grid">
+            <div class="result-card"><div class="result-name">Chloé — Lyon</div><div class="result-val" style="color:var(--green);font-weight:600;">500 EUR disponibles → paie sa scolarité</div></div>
+            <div class="result-card"><div class="result-name">Pierre — Lyon</div><div class="result-val" style="color:var(--teal);font-weight:600;">375 000 XAF → prêt pour le voyage</div></div>
+          </div>
+        </div>
+        <div class="key-note" style="margin-top:8px;">
+          <strong>Principe clé</strong> — Amadou n'a jamais envoyé d'argent en France. Pierre n'a jamais envoyé d'argent au Cameroun. N-zo a mis en relation deux besoins opposés et ajusté les soldes en interne.
+        </div>
+        <div style="margin-top:8px;padding:8px 12px;border-radius:8px;background:var(--blue-light);border-left:3px solid var(--blue);font-size:13px;color:#2641a0;line-height:1.5;">
+          <strong>Retrait</strong> — Chloé demande un retrait de 500 EUR vers son IBAN français. Le ledger débite son compte. L'EMI UK transfère les 500 EUR réels vers son compte bancaire.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======== SLIDE 3b : USE CASE 2 ======== -->
+<div class="slide" id="slide-3b">
+  <div class="uc-wrap">
+    <div class="uc-header">
+      <div class="anim-in"><div class="slide-tag" style="justify-content:left;">Comment ça marche</div></div>
+      <div class="anim-in"><h2 class="stitle">David (Londres) règle les frais de son chantier<br><span class="accent">en Côte d'Ivoire via N-zo</span></h2></div>
+    </div>
+    <div class="anim-in">
+      <div class="uc-box">
+        <div class="uc-box-title">Use case — Angleterre → Côte d'Ivoire</div>
+        <div class="uc-box-desc">David est cadre à Londres. Il doit payer 650 000 XOF à son chef de chantier Konan à Abidjan. Il a des GBP sur N-zo. Aya (Abidjan) veut des GBP pour voyager en Angleterre. N-zo les matche. David désigne Konan comme bénéficiaire des XOF.</div>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;">
+      <div class="anim-in">
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <div class="uc-actor">
+            <div class="uc-actor-header ah-eu">David — Londres (GBP)</div>
+            <div class="uc-actor-body">
+              <div class="uc-actor-name">Cadre, gère un chantier à Abidjan</div>
+              <div class="uc-actor-sub">Compte N-zo · KYC passeport britannique · Dépôt via Stripe</div>
+              <span class="wallet-badge wb-gbp">500 GBP sur N-zo</span>
+              <div class="uc-omnibus">Compte omnibus N-zo chez EMI UK · David ne le voit pas</div>
+            </div>
+          </div>
+          <div class="uc-actor">
+            <div class="uc-actor-header ah-af">Aya — Abidjan (XOF)</div>
+            <div class="uc-actor-body">
+              <div class="uc-actor-name">Commerçante, voyage prévu en Angleterre</div>
+              <div class="uc-actor-sub">Compte N-zo · KYC CNI ivoirienne · Dépôt via MTN MoMo</div>
+              <span class="wallet-badge wb-xof">650 000 XOF sur N-zo</span>
+              <div class="uc-omnibus">Compte omnibus N-zo chez Flutterwave · Aya ne le voit pas</div>
+            </div>
+          </div>
+          <div class="ledger-box" style="margin-bottom:0;">
+            <div class="ledger-box-label">Ledger N-zo — Miroir virtuel</div>
+            <div class="ledger-note">Konan (bénéficiaire) doit avoir un compte N-zo avec KYC validé.</div>
+            <div class="ledger-accs">
+              <div class="ledger-acc"><div class="ledger-acc-n">David</div><div class="ledger-acc-v">500 GBP</div></div>
+              <div class="ledger-acc"><div class="ledger-acc-n">Aya</div><div class="ledger-acc-v">650 000 XOF</div></div>
+              <div class="ledger-acc"><div class="ledger-acc-n">Konan</div><div class="ledger-acc-v">0 XOF</div></div>
+              <div class="ledger-acc"><div class="ledger-acc-n">…</div><div class="ledger-acc-v">…</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="anim-in">
+        <div class="uc-steps">
+          <div class="uc-step"><div class="uc-step-num" style="background:var(--blue);">1</div><div class="uc-step-body"><div class="uc-step-label">David publie son offre GBP</div><div class="uc-step-detail">"Je vends 500 GBP contre 650 000 XOF." Il désigne Konan comme bénéficiaire. Ses 500 GBP sont bloqués dans le ledger.</div><span class="uc-step-tag" style="background:var(--blue-light);color:var(--blue);">GBP bloqués · Konan désigné bénéficiaire</span></div></div>
+          <div class="connector-v"></div>
+          <div class="uc-step"><div class="uc-step-num" style="background:var(--teal);">2</div><div class="uc-step-body"><div class="uc-step-label">Aya publie son offre XOF</div><div class="uc-step-detail">"Je vends 650 000 XOF contre des GBP pour mon voyage." Ses 650 000 XOF sont bloqués dans le ledger.</div><span class="uc-step-tag" style="background:var(--teal-light);color:var(--teal);">XOF bloqués en escrow</span></div></div>
+          <div class="connector-v"></div>
+          <div class="uc-step"><div class="uc-step-num" style="background:var(--amber);">3</div><div class="uc-step-body"><div class="uc-step-label">Matching automatique</div><div class="uc-step-detail">Match parfait détecté. Notification WebSocket temps réel. David et Aya confirment le taux.</div><span class="uc-step-tag" style="background:var(--amber-light);color:var(--amber);">Notification temps réel · WebSocket</span></div></div>
+          <div class="connector-v"></div>
+          <div class="uc-step"><div class="uc-step-num" style="background:var(--purple);">4</div><div class="uc-step-body"><div class="uc-step-label">Exécution atomique</div><div class="uc-step-detail">David −500 GBP, Konan +650 000 XOF, Aya −650 000 XOF, Aya +500 GBP. Tout en une opération indivisible.</div><span class="uc-step-tag" style="background:var(--purple-light);color:var(--purple);">Atomique — tout ou rien · Audit trail</span></div></div>
+          <div class="connector-v"></div>
+          <div class="uc-step"><div class="uc-step-num" style="background:#888;">5b</div><div class="uc-step-body"><div class="uc-step-label">Si pas de match — Change direct</div><div class="uc-step-detail">N-zo propose le change au taux du marché. David accepte. N-zo est la contrepartie. Konan reçoit ses XOF immédiatement.</div><span class="uc-step-tag" style="background:var(--pink-light);color:var(--pink);">N-zo = contrepartie · Taux marché</span></div></div>
+        </div>
+      </div>
+      <div class="anim-in">
+        <div class="tx-box">
+          <div class="tx-title">Exécution dans le ledger</div>
+          <div class="tx-grid">
+            <div class="tx-side"><div class="tx-slabel">David → Konan</div><div class="tx-entry"><span class="debit">− 500 GBP</span></div><div class="tx-entry"><span class="credit">+ 650 000 XOF</span> (Konan)</div></div>
+            <div class="tx-arr">⇄</div>
+            <div class="tx-side"><div class="tx-slabel">Aya</div><div class="tx-entry"><span class="debit">− 650 000 XOF</span></div><div class="tx-entry"><span class="credit">+ 500 GBP</span></div></div>
+          </div>
+          <div class="tx-note">Aucun virement international · Konan reçoit sans interagir avec David</div>
+        </div>
+        <div class="result-box" style="margin-top:8px;">
+          <div class="result-title">Résultat final</div>
+          <div class="result-grid">
+            <div class="result-card"><div class="result-name">Konan — Abidjan</div><div class="result-val" style="color:var(--green);font-weight:600;">650 000 XOF disponibles → chantier payé</div></div>
+            <div class="result-card"><div class="result-name">Aya — Abidjan</div><div class="result-val" style="color:var(--blue);font-weight:600;">500 GBP → prête pour le voyage</div></div>
+          </div>
+        </div>
+        <div class="key-note" style="margin-top:8px;">
+          <strong>Ce qui rend N-zo unique</strong> — David n'a jamais envoyé d'argent en Côte d'Ivoire. Aya n'a jamais envoyé d'argent en Angleterre. N-zo a mis en relation deux besoins opposés. Le chantier est payé sans banque internationale ni frais SWIFT.
+        </div>
+        <div style="margin-top:8px;padding:8px 12px;border-radius:8px;background:var(--amber-light);border-left:3px solid var(--amber);font-size:13px;color:#7c5c00;line-height:1.5;">
+          <strong>Retrait</strong> — Konan demande un retrait de 650 000 XOF vers son MTN MoMo. Le ledger débite. Flutterwave transfère les XOF réels. David reçoit la confirmation.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======== SLIDE 4 : ARCHITECTURE ======== -->
+<div class="slide" id="slide-4">
+  <div class="arch-wrap">
+    <div class="anim-in"><div class="slide-tag">Choix d'architecture</div></div>
+    <div class="anim-in"><h2 class="stitle">De l'architecture cible aux <span class="teal">choix du MVP</span></h2></div>
+    <div class="arch-cols">
+      <div class="anim-in">
+        <div class="arch-diagram">
+          <div class="arch-diag-header adh-micro">
+            Architecture cible — microservices
+            <span class="badge" style="background:var(--pink-light);color:var(--pink);font-size:12px;">Post-MVP</span>
+          </div>
+          <div class="arch-diag-body">
+            <div class="dn-clients">
+              <div class="dn-client">Interface web</div>
+              <div class="dn-client">Interface mobile</div>
+              <div class="dn-client">Interface admin</div>
+            </div>
+            <div class="dn-arrow-center">↓ ↓ ↓</div>
+            <div class="dn-gateway dn-gw-teal">Passerelle API — routage, authentification</div>
+            <div class="dn-bus">Bus de messages — communication asynchrone</div>
+            <div style="font-size:12px;color:var(--text3);text-align:center;margin-bottom:6px;">Services indépendants — repo, déploiement et base de données séparés</div>
+            <div class="dn-services">
+              <div class="dn-svc svc-micro">Service identité<span class="svc-sub">Comptes, vérification</span></div>
+              <div class="dn-svc svc-micro">Service portefeuille<span class="svc-sub">Soldes, mouvements</span></div>
+              <div class="dn-svc svc-micro">Service offres<span class="svc-sub">Publication, expiration</span></div>
+              <div class="dn-svc svc-micro">Service matching<span class="svc-sub">Mise en relation</span></div>
+              <div class="dn-svc svc-micro">Service transactions<span class="svc-sub">Exécution, sécurisation</span></div>
+              <div class="dn-svc svc-micro">Service notifications<span class="svc-sub">Alertes, communications</span></div>
+            </div>
+            <div style="font-size:12px;color:var(--text3);text-align:center;margin-bottom:5px;">Bases de données indépendantes par service</div>
+            <div class="dn-dbs">
+              <div class="dn-db">DB identité</div><div class="dn-db">DB portefeuille</div><div class="dn-db">DB offres</div><div class="dn-db">DB matching</div><div class="dn-db">DB transactions</div>
+            </div>
+            <div class="dn-note note-micro">Avantages : scale indépendant, panne isolée, équipes autonomes · Exige : plusieurs équipes, DevOps avancé, budget infra élevé</div>
+          </div>
+        </div>
+      </div>
+      <div class="anim-in">
+        <div class="arch-diagram">
+          <div class="arch-diag-header adh-mono">
+            Architecture proposée MVP — monolithe modulaire
+            <span class="badge" style="background:var(--teal-light);color:var(--teal);font-size:12px;">Recommandé</span>
+          </div>
+          <div class="arch-diag-body">
+            <div class="dn-clients">
+              <div class="dn-client">Site vitrine</div>
+              <div class="dn-client">Interface mobile</div>
+              <div class="dn-client">Interface admin</div>
+            </div>
+            <div class="dn-arrow-center">↓ ↓ ↓</div>
+            <div class="dn-gateway dn-gw-teal">Point d'entrée unique — API REST</div>
+            <div class="dn-arrow-center">↓</div>
+            <div class="dn-mono-container">
+              <div class="dn-mono-label">Monolithe modulaire — un seul déploiement, modules fonctionnellement séparés</div>
+              <div class="dn-mono-modules">
+                <div class="dn-svc svc-mono">Module identité<span class="svc-sub">Comptes, vérification</span></div>
+                <div class="dn-svc svc-mono">Module portefeuille + ledger<span class="svc-sub">Soldes, mouvements</span></div>
+                <div class="dn-svc svc-mono">Module offres<span class="svc-sub">Publication, expiration</span></div>
+              </div>
+              <div class="dn-mono-row2">
+                <div class="dn-svc svc-mono">Module matching<span class="svc-sub">Mise en relation + change direct</span></div>
+                <div class="dn-svc svc-mono">Module transactions<span class="svc-sub">Exécution, sécurisation des fonds</span></div>
+              </div>
+              <div class="dn-evolution">Chaque module est extractible indépendamment — migration vers microservices possible sans réécriture</div>
+            </div>
+            <div class="dn-db-single">Base de données unique</div>
+            <div class="dn-ext">Services externes — vérification identité · paiements · taux de change · notifications</div>
+            <div class="dn-note note-mono">Un seul repo · un seul déploiement · debugging simplifié · coût infra minimal</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======== SLIDE 5 : STACK & INFRA ======== -->
+<div class="slide" id="slide-5">
+  <div class="stack-wrap">
+    <div class="anim-in"><div class="slide-tag">Point 3</div></div>
+    <div class="anim-in"><h2 class="stitle" style="font-size:clamp(24px,2.5vw,40px);">Choix des technologies &<br><span class="accent">organisation de l'infrastructure</span></h2></div>
+    <div class="anim-in">
+      <div class="infra-matrix">
+        <div class="im-header-row">
+          <div></div>
+          <div class="im-col-header im-dev">DEV / Intégration</div>
+          <div class="im-col-header im-preprod">PRÉPROD</div>
+          <div class="im-col-header im-prod">PRODUCTION</div>
+        </div>
+        <div class="im-row">
+          <div class="im-app-label im-al-vitrine">Site vitrine<div class="im-al-sub">Présentation + liens</div></div>
+          <div class="im-cell"><div class="im-cell-main">dev.n-zo.com</div><div class="im-cell-sub">Validé par l'équipe</div></div>
+          <div class="im-cell"><div class="im-cell-main">staging.n-zo.com</div><div class="im-cell-sub">Validé par les pilotes</div></div>
+          <div class="im-cell"><div class="im-cell-main">n-zo.com</div><div class="im-cell-sub">Grand public</div></div>
+        </div>
+        <div class="im-row">
+          <div class="im-app-label im-al-mobile">App mobile<div class="im-al-sub">iOS + Android</div></div>
+          <div class="im-cell"><div class="im-cell-main">Expo Go</div><div class="im-cell-sub">Validation en remote via tunnel</div></div>
+          <div class="im-cell"><div class="im-cell-main">TestFlight (iOS)</div><div class="im-cell-sub">Firebase App Distrib. (Android)</div></div>
+          <div class="im-cell"><div class="im-cell-main">App Store (Apple)</div><div class="im-cell-sub">Play Store (Google)</div></div>
+        </div>
+        <div class="im-row">
+          <div class="im-app-label im-al-admin">Interface admin<div class="im-al-sub">Accès restreint</div></div>
+          <div class="im-cell"><div class="im-cell-main">admin-dev.n-zo.com</div><div class="im-cell-sub">Équipe technique</div></div>
+          <div class="im-cell"><div class="im-cell-main">admin-staging.n-zo.com</div><div class="im-cell-sub">Équipe + cofondateurs</div></div>
+          <div class="im-cell"><div class="im-cell-main">admin.n-zo.com</div><div class="im-cell-sub">Opérateurs N-zo</div></div>
+        </div>
+        <div class="im-backend-row">
+          <div class="im-be-label">Backend — un serveur par environnement, partagé par toutes les applications</div>
+          <div class="im-be-servers">
+            <div class="im-be-spacer"></div>
+            <div class="im-be-server be-dev">Serveur DEV<div class="im-be-sub">DigitalOcean · 2GB/1CPU · SSD · $12/mo · Paiements sandbox</div></div>
+            <div class="im-be-server be-preprod">Serveur PRÉPROD<div class="im-be-sub">DigitalOcean · Config identique prod</div></div>
+            <div class="im-be-server be-prod">Serveur PROD<div class="im-be-sub">DigitalOcean Premium Intel · 4GB/2CPU NVMe · $32/mo · Vrai argent</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="anim-in">
+      <div class="pipeline-box">
+        <span class="pl-label">Pipeline CI/CD</span>
+        <span class="pl-step">Code fusionné</span><span class="pl-arrow">→</span>
+        <span class="pl-step">Tests auto</span><span class="pl-arrow">→</span>
+        <span class="pl-step">DEV auto</span><span class="pl-arrow">→</span>
+        <span class="pl-step">PRÉPROD manuel</span><span class="pl-arrow">→</span>
+        <span class="pl-step">PROD (décision humaine)</span>
+      </div>
+    </div>
+    <div class="anim-in">
+      <div class="tech-grid">
+        <div class="tech-cat">
+          <div class="tech-cat-h tch-back">Backend</div>
+          <div class="tech-items">
+            <div class="tech-item"><div><div class="tech-name">Django REST + Django Channels</div><div class="tech-why">Sécurité native · ORM familier · WebSockets</div></div><span class="tech-badge" style="background:var(--accent-light);color:var(--accent);">Python</span></div>
+            <div class="tech-item"><div><div class="tech-name">PostgreSQL + Redis</div><div class="tech-why">ACID · Ledger · Messaging async</div></div><span class="tech-badge" style="background:var(--accent-light);color:var(--accent);">DB</span></div>
+          </div>
+        </div>
+        <div class="tech-cat">
+          <div class="tech-cat-h tch-front">Frontend & Mobile</div>
+          <div class="tech-items">
+            <div class="tech-item"><div><div class="tech-name">React Native + Expo EAS</div><div class="tech-why">iOS & Android · Un seul codebase</div></div><span class="tech-badge" style="background:var(--teal-light);color:var(--teal);">Mobile</span></div>
+            <div class="tech-item"><div><div class="tech-name">Next.js + React</div><div class="tech-why">Admin (CTO) · Site vitrine</div></div><span class="tech-badge" style="background:var(--teal-light);color:var(--teal);">Web</span></div>
+          </div>
+        </div>
+        <div class="tech-cat">
+          <div class="tech-cat-h tch-services">Services tiers</div>
+          <div class="tech-items">
+            <div class="tech-item"><div><div class="tech-name">Sumsub · Stripe · Flutterwave</div><div class="tech-why">KYC certifié FCA · Paiements EU + AF</div></div><span class="tech-badge" style="background:var(--blue-light);color:var(--blue);">API</span></div>
+            <div class="tech-item"><div><div class="tech-name">Twilio · Fixer.io · Sentry</div><div class="tech-why">OTP SMS · Taux · Monitoring</div></div><span class="tech-badge" style="background:var(--green-light);color:var(--green);">Gratuit MVP</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======== SLIDE 6 : EQUIPE ======== -->
+<div class="slide" id="slide-6">
+  <div class="team-wrap">
+    <div class="anim-in"><div class="slide-tag">Point 4</div></div>
+    <div class="anim-in"><h2 class="stitle">L'équipe technique <span class="teal">MVP</span></h2></div>
+    <div class="team-grid">
+      <div class="anim-in">
+        <div class="team-card tc-cto">
+          <div class="t-avatar ta-cto">CTO</div>
+          <div class="t-name">EPOME NZENGUE Hervé</div>
+          <div class="t-role">CTO / Cofondateur — Architecte & développeur backend</div>
+          <div class="t-meta">
+            <span class="t-badge tb-o">Cameroun · Remote</span>
+            <span class="t-badge tb-y">Temps plein</span>
+            <span class="t-badge tb-o">Cofondateur</span>
+          </div>
+          <div class="t-resp">
+            <div class="t-resp-item">Socle backend Django + Ledger interne</div>
+            <div class="t-resp-item">Interface administration Next.js</div>
+            <div class="t-resp-item">Intégrations Sumsub, Stripe, Flutterwave</div>
+            <div class="t-resp-item">Infrastructure & pipeline CI/CD</div>
+            <div class="t-resp-item">Décisions d'architecture technique</div>
+            <div class="t-resp-item">Revue de code frontend</div>
+          </div>
+        </div>
+      </div>
+      <div class="anim-in">
+        <div class="team-card tc-dev">
+          <div class="t-avatar ta-dev">DEV</div>
+          <div class="t-name">Développeur Frontend</div>
+          <div class="t-role">Mobile iOS/Android + Site vitrine</div>
+          <div class="t-meta">
+            <span class="t-badge tb-t">Sénégal · Remote</span>
+            <span class="t-badge tb-t">Freelance</span>
+            <span class="t-badge tb-y">À recruter</span>
+          </div>
+          <div class="t-resp">
+            <div class="t-resp-item">App mobile React Native (iOS & Android)</div>
+            <div class="t-resp-item">Site vitrine N-zo</div>
+            <div class="t-resp-item">Intégration des APIs backend</div>
+            <div class="t-resp-item">Builds & déploiement via Expo EAS</div>
+            <div class="t-resp-item">Soumission App Store & Play Store</div>
+          </div>
+          <div class="t-contract">
+            Contrat freelance · Paiement fin de mois · 500 000 FCFA/mois (~810 $) · Régi par la législation britannique · Clauses PI, confidentialité & non-concurrence
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="anim-in">
+      <div class="post-mvp-box">
+        <div class="post-mvp-title">Profils post-MVP — non inclus dans le périmètre actuel</div>
+        <div class="post-mvp-items">
+          <span class="post-mvp-item">DevOps / Infra</span>
+          <span class="post-mvp-item">Designer UI/UX</span>
+          <span class="post-mvp-item">Expert conformité réglementaire</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======== SLIDE 7 : ROADMAP ======== -->
+<div class="slide" id="slide-7">
+  <div class="rm-wrap">
+    <div class="anim-in"><div class="slide-tag">Point 5</div></div>
+    <div class="anim-in"><h2 class="stitle" style="font-size:clamp(24px,2.5vw,40px);">Roadmap — 5 itérations · <span class="accent">22 semaines</span></h2></div>
+    <div class="anim-in" style="display:flex;gap:16px;margin:8px 0;font-size:13px;color:var(--text2);">
+      <span>★ Fonctionnalité principale</span>
+      <span>· Secondaire</span>
+      <span style="color:var(--text3);">Cliquer pour dérouler itération → puis sprint</span>
+    </div>
+    <div class="rm-list" id="rm-list">
+
+      <div class="rm-iter anim-in">
+        <div class="rm-iter-header" onclick="toggleIter(this)">
+          <div class="rm-iter-num ri1">1</div>
+          <div class="rm-iter-title">L'utilisateur arrive et est vérifié</div>
+          <div class="rm-iter-period">Semaines 1–4 · Avril 2026</div>
+          <div class="rm-iter-arrow">▾</div>
+        </div>
+        <div class="rm-iter-body">
+          <div class="rm-sprints">
+            <div class="rm-sprint">
+              <div class="rm-sprint-header" onclick="toggleSprint(this)">
+                <span class="rm-sprint-label">Sprint 1 — Inscription & authentification</span>
+                <span class="rm-sprint-period">1–7 avril</span>
+                <span class="rm-sprint-arrow">▾</span>
+              </div>
+              <div class="rm-sprint-body">
+                <div class="rm-interfaces">
+                  <div class="rm-iface"><span class="rm-ilabel ril-mob">Mobile</span><div class="rm-feat core">Écran inscription</div><div class="rm-feat core">Connexion & auth</div><div class="rm-feat core">OTP email & SMS</div></div>
+                  <div class="rm-iface"><span class="rm-ilabel ril-adm">Admin</span><div class="rm-feat core">Setup accès admin</div><div class="rm-feat">Liste utilisateurs</div></div>
+                  <div class="rm-iface"><span class="rm-ilabel ril-web">Vitrine</span><div class="rm-feat none">Non démarré</div></div>
+                </div>
+              </div>
+            </div>
+            <div class="rm-sprint">
+              <div class="rm-sprint-header" onclick="toggleSprint(this)">
+                <span class="rm-sprint-label">Sprint 2 — Vérification OTP</span>
+                <span class="rm-sprint-period">8–14 avril</span>
+                <span class="rm-sprint-arrow">▾</span>
+              </div>
+              <div class="rm-sprint-body">
+                <div class="rm-interfaces">
+                  <div class="rm-iface"><span class="rm-ilabel ril-mob">Mobile</span><div class="rm-feat core">2FA authentification</div><div class="rm-feat core">Gestion session</div></div>
+                  <div class="rm-iface"><span class="rm-ilabel ril-adm">Admin</span><div class="rm-feat core">Liste & détail users</div></div>
+                  <div class="rm-iface"><span class="rm-ilabel ril-web">Vitrine</span><div class="rm-feat none">Non démarré</div></div>
+                </div>
+              </div>
+            </div>
+            <div class="rm-sprint">
+              <div class="rm-sprint-header" onclick="toggleSprint(this)">
+                <span class="rm-sprint-label">Sprint 3 — KYC vérification d'identité</span>
+                <span class="rm-sprint-period">15–21 avril</span>
+                <span class="rm-sprint-arrow">▾</span>
+              </div>
+              <div class="rm-sprint-body">
+                <div class="rm-interfaces">
+                  <div class="rm-iface"><span class="rm-ilabel ril-mob">Mobile</span><div class="rm-feat core">Upload pièce d'identité</div><div class="rm-feat core">Statut KYC temps réel</div></div>
+                  <div class="rm-iface"><span class="rm-ilabel ril-adm">Admin</span><div class="rm-feat core">Statut KYC par user</div><div class="rm-feat core">Validation manuelle</div></div>
+                  <div class="rm-iface"><span class="rm-ilabel ril-web">Vitrine</span><div class="rm-feat none">Non démarré</div></div>
+                </div>
+              </div>
+            </div>
+            <div class="rm-sprint">
+              <div class="rm-sprint-header" onclick="toggleSprint(this)">
+                <span class="rm-sprint-label">Sprint 4 — Profil utilisateur</span>
+                <span class="rm-sprint-period">22–30 avril</span>
+                <span class="rm-sprint-arrow">▾</span>
+              </div>
+              <div class="rm-sprint-body">
+                <div class="rm-interfaces">
+                  <div class="rm-iface"><span class="rm-ilabel ril-mob">Mobile</span><div class="rm-feat core">Création & édition profil</div><div class="rm-feat">Paramètres utilisateur</div></div>
+                  <div class="rm-iface"><span class="rm-ilabel ril-adm">Admin</span><div class="rm-feat core">Suspension de compte</div><div class="rm-feat">Détail profil</div></div>
+                  <div class="rm-iface"><span class="rm-ilabel ril-web">Vitrine</span><div class="rm-feat none">Non démarré</div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="rm-iter anim-in">
+        <div class="rm-iter-header" onclick="toggleIter(this)">
+          <div class="rm-iter-num ri2">2</div>
+          <div class="rm-iter-title">L'utilisateur a un portefeuille</div>
+          <div class="rm-iter-period">Semaines 5–8 · Mai 2026</div>
+          <div class="rm-iter-arrow">▾</div>
+        </div>
+        <div class="rm-iter-body">
+          <div class="rm-sprints">
+            <div class="rm-sprint">
+              <div class="rm-sprint-header" onclick="toggleSprint(this)">
+                <span class="rm-sprint-label">Sprint 5 — Portefeuille multi-devises</span>
+                <span class="rm-sprint-period">1–7 mai</span>
+                <span class="rm-sprint-arrow">▾</span>
+              </div>
+              <div class="rm-sprint-body">
+                <div class="rm-interfaces">
+                  <div class="rm-iface"><span class="rm-ilabel ril-mob">Mobile</span><div class="rm-feat core">Portefeuille multi-devises</div><div class="rm-feat core">Soldes temps réel</div></div>
+                  <div class="rm-iface"><span class="rm-ilabel ril-adm">Admin</span><div class="rm-feat core">Vue portefeuilles users</div></div>
+                  <div class="rm-iface"><span class="rm-ilabel ril-web">Vitrine</span><div class="rm-feat core">Page présentation N-zo</div></div>
+                </div>
+              </div>
+            </div>
+            <div class="rm-sprint">
+              <div class="rm-sprint-header" onclick="toggleSprint(this)">
+                <span class="rm-sprint-label">Sprint 6 — Mise en place du Ledger interne</span>
+                <span class="rm-sprint-period">8–14 mai</span>
+                <span class="rm-sprint-arrow">▾</span>
+              </div>
+              <div class="rm-sprint-body">
+                <div class="rm-interfaces">
+                  <div class="rm-iface"><span class="rm-ilabel ril-mob">Mobile</span><div class="rm-feat core">Modèle Ledger complet</div><div class="rm-feat core">Comptes créés auto à l'inscription</div></div>
+                  <div class="rm-iface"><span class="rm-ilabel ril-adm">Admin</span><div class="rm-feat core">Audit trail Ledger</div></div>
+                  <div class="rm-iface"><span class="rm-ilabel ril-web">Vitrine</span><div class="rm-feat">Liens téléchargement</div></div>
+                </div>
+              </div>
+            </div>
+            <div class="rm-sprint">
+              <div class="rm-sprint-header" onclick="toggleSprint(this)">
+                <span class="rm-sprint-label">Sprint 7 — Dépôt de fonds</span>
+                <span class="rm-sprint-period">15–21 mai</span>
+                <span class="rm-sprint-arrow">▾</span>
+              </div>
+              <div class="rm-sprint-body">
+                <div class="rm-interfaces">
+                  <div class="rm-iface"><span class="rm-ilabel ril-mob">Mobile</span><div class="rm-feat core">Dépôt via Stripe (Europe)</div><div class="rm-feat core">Dépôt via Flutterwave (Afrique)</div></div>
+                  <div class="rm-iface"><span class="rm-ilabel ril-adm">Admin</span><div class="rm-feat core">Supervision dépôts</div></div>
+                  <div class="rm-iface"><span class="rm-ilabel ril-web">Vitrine</span><div class="rm-feat">Accès admin</div></div>
+                </div>
+              </div>
+            </div>
+            <div class="rm-sprint">
+              <div class="rm-sprint-header" onclick="toggleSprint(this)">
+                <span class="rm-sprint-label">Sprint 8 — Historique & taux temps réel</span>
+                <span class="rm-sprint-period">22–31 mai</span>
+                <span class="rm-sprint-arrow">▾</span>
+              </div>
+              <div class="rm-sprint-body">
+                <div class="rm-interfaces">
+                  <div class="rm-iface"><span class="rm-ilabel ril-mob">Mobile</span><div class="rm-feat core">Historique mouvements</div><div class="rm-feat core">Taux de change temps réel</div></div>
+                  <div class="rm-iface"><span class="rm-ilabel ril-adm">Admin</span><div class="rm-feat">Dashboard portefeuilles</div></div>
+                  <div class="rm-iface"><span class="rm-ilabel ril-web">Vitrine</span><div class="rm-feat">Contenu fonctionnalités</div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="rm-iter anim-in">
+        <div class="rm-iter-header" onclick="toggleIter(this)">
+          <div class="rm-iter-num ri3">3</div>
+          <div class="rm-iter-title">L'utilisateur publie et négocie</div>
+          <div class="rm-iter-period">Semaines 9–12 · Juin 2026</div>
+          <div class="rm-iter-arrow">▾</div>
+        </div>
+        <div class="rm-iter-body">
+          <div class="rm-sprints">
+            <div class="rm-sprint">
+              <div class="rm-sprint-header" onclick="toggleSprint(this)">
+                <span class="rm-sprint-label">Sprint 9 — Publication d'offres</span>
+                <span class="rm-sprint-period">1–7 juin</span>
+                <span class="rm-sprint-arrow">▾</span>
+              </div>
+              <div class="rm-sprint-body">
+                <div class="rm-interfaces">
+                  <div class="rm-iface"><span class="rm-ilabel ril-mob">Mobile</span><div class="rm-feat core">Publication offre achat/vente</div><div class="rm-feat core">Paramètres de l'offre</div></div>
+                  <div class="rm-iface"><span class="rm-ilabel ril-adm">Admin</span><div class="rm-feat core">Liste des offres publiées</div></div>
+                  <div class="rm-iface"><span class="rm-ilabel ril-web">Vitrine</span><div class="rm-feat none">Stable</div></div>
+                </div>
+              </div>
+            </div>
+            <div class="rm-sprint">
+              <div class="rm-sprint-header" onclick="toggleSprint(this)">
+                <span class="rm-sprint-label">Sprint 10 — Marché & expiration</span>
+                <span class="rm-sprint-period">8–14 juin</span>
+                <span class="rm-sprint-arrow">▾</span>
+              </div>
+              <div class="rm-sprint-body">
+                <div class="rm-interfaces">
+                  <div class="rm-iface"><span class="rm-ilabel ril-mob">Mobile</span><div class="rm-feat core">Consultation du marché</div><div class="rm-feat core">Expiration des offres</div></div>
+                  <div class="rm-iface"><span class="rm-ilabel ril-adm">Admin</span><div class="rm-feat core">Suspension d'offre</div><div class="rm-feat">Alertes expiration</div></div>
+                  <div class="rm-iface"><span class="rm-ilabel ril-web">Vitrine</span><div class="rm-feat none">Stable</div></div>
+                </div>
+              </div>
+            </div>
+            <div class="rm-sprint">
+              <div class="rm-sprint-header" onclick="toggleSprint(this)">
+                <span class="rm-sprint-label">Sprint 11 — Négociation des taux</span>
+                <span class="rm-sprint-period">15–21 juin</span>
+                <span class="rm-sprint-arrow">▾</span>
+              </div>
+              <div class="rm-sprint-body">
+                <div class="rm-interfaces">
+                  <div class="rm-iface"><span class="rm-ilabel ril-mob">Mobile</span><div class="rm-feat core">Négociation des taux</div><div class="rm-feat core">Acceptation / contre-offre</div></div>
+                  <div class="rm-iface"><span class="rm-ilabel ril-adm">Admin</span><div class="rm-feat core">Suivi négociations</div></div>
+                  <div class="rm-iface"><span class="rm-ilabel ril-web">Vitrine</span><div class="rm-feat none">Stable</div></div>
+                </div>
+              </div>
+            </div>
+            <div class="rm-sprint">
+              <div class="rm-sprint-header" onclick="toggleSprint(this)">
+                <span class="rm-sprint-label">Sprint 12 — Notifications WebSocket</span>
+                <span class="rm-sprint-period">22–30 juin</span>
+                <span class="rm-sprint-arrow">▾</span>
+              </div>
+              <div class="rm-sprint-body">
+                <div class="rm-interfaces">
+                  <div class="rm-iface"><span class="rm-ilabel ril-mob">Mobile</span><div class="rm-feat core">Notifications in-app temps réel</div><div class="rm-feat">Historique négociations</div></div>
+                  <div class="rm-iface"><span class="rm-ilabel ril-adm">Admin</span><div class="rm-feat">Dashboard offres</div></div>
+                  <div class="rm-iface"><span class="rm-ilabel ril-web">Vitrine</span><div class="rm-feat none">Stable</div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="rm-iter anim-in">
+        <div class="rm-iter-header" onclick="toggleIter(this)">
+          <div class="rm-iter-num ri4">4</div>
+          <div class="rm-iter-title">La transaction s'exécute — Matching & Ledger</div>
+          <div class="rm-iter-period">Semaines 13–18 · Juillet–Août 2026</div>
+          <div class="rm-iter-arrow">▾</div>
+        </div>
+        <div class="rm-iter-body">
+          <div class="rm-sprints">
+            <div class="rm-sprint">
+              <div class="rm-sprint-header" onclick="toggleSprint(this)">
+                <span class="rm-sprint-label">Sprint 13 — Moteur de matching</span>
+                <span class="rm-sprint-period">1–7 juillet</span>
+                <span class="rm-sprint-arrow">▾</span>
+              </div>
+              <div class="rm-sprint-body">
+                <div class="rm-interfaces">
+                  <div class="rm-iface"><span class="rm-ilabel ril-mob">Mobile</span><div class="rm-feat core">Moteur matching automatisé</div><div class="rm-feat core">Proposition de match</div></div>
+                  <div class="rm-iface"><span class="rm-ilabel ril-adm">Admin</span><div class="rm-feat core">Supervision matching</div></div>
+                  <div class="rm-iface"><span class="rm-ilabel ril-web">Vitrine</span><div class="rm-feat none">Stable</div></div>
+                </div>
+              </div>
+            </div>
+            <div class="rm-sprint">
+              <div class="rm-sprint-header" onclick="toggleSprint(this)">
+                <span class="rm-sprint-label">Sprint 14 — Escrow & confirmation</span>
+                <span class="rm-sprint-period">8–14 juillet</span>
+                <span class="rm-sprint-arrow">▾</span>
+              </div>
+              <div class="rm-sprint-body">
+                <div class="rm-interfaces">
+                  <div class="rm-iface"><span class="rm-ilabel ril-mob">Mobile</span><div class="rm-feat core">Acceptation du match</div><div class="rm-feat core">Sécurisation fonds escrow</div></div>
+                  <div class="rm-iface"><span class="rm-ilabel ril-adm">Admin</span><div class="rm-feat core">Détection anomalies</div></div>
+                  <div class="rm-iface"><span class="rm-ilabel ril-web">Vitrine</span><div class="rm-feat none">Stable</div></div>
+                </div>
+              </div>
+            </div>
+            <div class="rm-sprint">
+              <div class="rm-sprint-header" onclick="toggleSprint(this)">
+                <span class="rm-sprint-label">Sprint 15 — Exécution atomique ledger</span>
+                <span class="rm-sprint-period">15–21 juillet</span>
+                <span class="rm-sprint-arrow">▾</span>
+              </div>
+              <div class="rm-sprint-body">
+                <div class="rm-interfaces">
+                  <div class="rm-iface"><span class="rm-ilabel ril-mob">Mobile</span><div class="rm-feat core">Exécution transaction</div><div class="rm-feat core">Mise à jour portefeuille</div></div>
+                  <div class="rm-iface"><span class="rm-ilabel ril-adm">Admin</span><div class="rm-feat core">Supervision transactions</div><div class="rm-feat core">Historique complet</div></div>
+                  <div class="rm-iface"><span class="rm-ilabel ril-web">Vitrine</span><div class="rm-feat none">Stable</div></div>
+                </div>
+              </div>
+            </div>
+            <div class="rm-sprint">
+              <div class="rm-sprint-header" onclick="toggleSprint(this)">
+                <span class="rm-sprint-label">Sprint 16 — Change direct plateforme</span>
+                <span class="rm-sprint-period">22–31 juillet</span>
+                <span class="rm-sprint-arrow">▾</span>
+              </div>
+              <div class="rm-sprint-body">
+                <div class="rm-interfaces">
+                  <div class="rm-iface"><span class="rm-ilabel ril-mob">Mobile</span><div class="rm-feat core">Change direct (fallback)</div><div class="rm-feat core">Reçu de transaction</div></div>
+                  <div class="rm-iface"><span class="rm-ilabel ril-adm">Admin</span><div class="rm-feat core">Génération de rapports</div></div>
+                  <div class="rm-iface"><span class="rm-ilabel ril-web">Vitrine</span><div class="rm-feat none">Stable</div></div>
+                </div>
+              </div>
+            </div>
+            <div class="rm-sprint">
+              <div class="rm-sprint-header" onclick="toggleSprint(this)">
+                <span class="rm-sprint-label">Sprint 17 — Notifications & retrait</span>
+                <span class="rm-sprint-period">1–7 août</span>
+                <span class="rm-sprint-arrow">▾</span>
+              </div>
+              <div class="rm-sprint-body">
+                <div class="rm-interfaces">
+                  <div class="rm-iface"><span class="rm-ilabel ril-mob">Mobile</span><div class="rm-feat core">Notifications SMS & email</div><div class="rm-feat core">Retrait vers compte externe</div></div>
+                  <div class="rm-iface"><span class="rm-ilabel ril-adm">Admin</span><div class="rm-feat core">Supervision retraits</div></div>
+                  <div class="rm-iface"><span class="rm-ilabel ril-web">Vitrine</span><div class="rm-feat none">Stable</div></div>
+                </div>
+              </div>
+            </div>
+            <div class="rm-sprint">
+              <div class="rm-sprint-header" onclick="toggleSprint(this)">
+                <span class="rm-sprint-label">Sprint 18 — Tests intégration paiements</span>
+                <span class="rm-sprint-period">8–14 août</span>
+                <span class="rm-sprint-arrow">▾</span>
+              </div>
+              <div class="rm-sprint-body">
+                <div class="rm-interfaces">
+                  <div class="rm-iface"><span class="rm-ilabel ril-mob">Mobile</span><div class="rm-feat">Tests paiements réels</div><div class="rm-feat">Corrections flux complet</div></div>
+                  <div class="rm-iface"><span class="rm-ilabel ril-adm">Admin</span><div class="rm-feat">Validation flux complet</div></div>
+                  <div class="rm-iface"><span class="rm-ilabel ril-web">Vitrine</span><div class="rm-feat none">Stable</div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="rm-iter anim-in">
+        <div class="rm-iter-header" onclick="toggleIter(this)">
+          <div class="rm-iter-num ri5">5</div>
+          <div class="rm-iter-title">Sécurité, tests & déploiement</div>
+          <div class="rm-iter-period">Semaines 19–22 · Août–Mi-sept. 2026</div>
+          <div class="rm-iter-arrow">▾</div>
+        </div>
+        <div class="rm-iter-body">
+          <div class="rm-sprints">
+            <div class="rm-sprint">
+              <div class="rm-sprint-header" onclick="toggleSprint(this)">
+                <span class="rm-sprint-label">Sprint 19 — Sécurité & AML</span>
+                <span class="rm-sprint-period">15–21 août</span>
+                <span class="rm-sprint-arrow">▾</span>
+              </div>
+              <div class="rm-sprint-body">
+                <div class="rm-interfaces">
+                  <div class="rm-iface"><span class="rm-ilabel ril-mob">Mobile</span><div class="rm-feat core">Chiffrement des données KYC</div><div class="rm-feat core">AML — alertes automatiques</div></div>
+                  <div class="rm-iface"><span class="rm-ilabel ril-adm">Admin</span><div class="rm-feat core">Dashboard AML complet</div><div class="rm-feat core">Gestion des comptes</div></div>
+                  <div class="rm-iface"><span class="rm-ilabel ril-web">Vitrine</span><div class="rm-feat core">Contenu final validé</div></div>
+                </div>
+              </div>
+            </div>
+            <div class="rm-sprint">
+              <div class="rm-sprint-header" onclick="toggleSprint(this)">
+                <span class="rm-sprint-label">Sprint 20 — Tests end-to-end</span>
+                <span class="rm-sprint-period">22–31 août</span>
+                <span class="rm-sprint-arrow">▾</span>
+              </div>
+              <div class="rm-sprint-body">
+                <div class="rm-interfaces">
+                  <div class="rm-iface"><span class="rm-ilabel ril-mob">Mobile</span><div class="rm-feat core">Tests E2E complets</div><div class="rm-feat core">Corrections & polish UX</div></div>
+                  <div class="rm-iface"><span class="rm-ilabel ril-adm">Admin</span><div class="rm-feat core">Export & rapports</div><div class="rm-feat">Tests admin complets</div></div>
+                  <div class="rm-iface"><span class="rm-ilabel ril-web">Vitrine</span><div class="rm-feat">Tests & corrections</div></div>
+                </div>
+              </div>
+            </div>
+            <div class="rm-sprint">
+              <div class="rm-sprint-header" onclick="toggleSprint(this)">
+                <span class="rm-sprint-label">Sprint 21 — Build & soumission stores</span>
+                <span class="rm-sprint-period">1–7 septembre</span>
+                <span class="rm-sprint-arrow">▾</span>
+              </div>
+              <div class="rm-sprint-body">
+                <div class="rm-interfaces">
+                  <div class="rm-iface"><span class="rm-ilabel ril-mob">Mobile</span><div class="rm-feat core">Build production iOS & Android</div><div class="rm-feat core">Soumission App Store & Play Store</div></div>
+                  <div class="rm-iface"><span class="rm-ilabel ril-adm">Admin</span><div class="rm-feat core">Déploiement production</div><div class="rm-feat core">Monitoring Sentry actif</div></div>
+                  <div class="rm-iface"><span class="rm-ilabel ril-web">Vitrine</span><div class="rm-feat core">Déploiement production</div></div>
+                </div>
+              </div>
+            </div>
+            <div class="rm-sprint">
+              <div class="rm-sprint-header" onclick="toggleSprint(this)">
+                <span class="rm-sprint-label">Sprint 22 — Validation stores & Go-live</span>
+                <span class="rm-sprint-period">8–15 septembre</span>
+                <span class="rm-sprint-arrow">▾</span>
+              </div>
+              <div class="rm-sprint-body">
+                <div class="rm-interfaces">
+                  <div class="rm-iface"><span class="rm-ilabel ril-mob">Mobile</span><div class="rm-feat core">Suivi validation Apple & Google</div><div class="rm-feat core">Corrections si rejet store</div></div>
+                  <div class="rm-iface"><span class="rm-ilabel ril-adm">Admin</span><div class="rm-feat core">Validation finale production</div></div>
+                  <div class="rm-iface"><span class="rm-ilabel ril-web">Vitrine</span><div class="rm-feat core">Liens stores mis à jour</div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="marge-box anim-in">
+        <div>
+          <div class="marge-title">Mi-sept. → Oct. 2026 — Marge de sécurité & lancement</div>
+          <div class="marge-sub">Validation Apple & Google · corrections post-stores · tests pilotes · lancement officiel MVP</div>
+        </div>
+        <div class="marge-tags">
+          <span class="marge-tag">Tests pilotes</span>
+          <span class="marge-tag">Validation stores</span>
+          <span class="marge-tag">Corrections</span>
+          <span class="marge-tag">Lancement MVP</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======== SLIDE 8 : BUDGET ======== -->
+<div class="slide" id="slide-8">
+  <div class="budget-wrap">
+    <div class="anim-in"><div class="slide-tag">Point 6</div></div>
+    <div class="anim-in"><h2 class="stitle">Estimation budgétaire <span class="teal">MVP — 6 mois</span></h2></div>
+    <div class="budget-grid">
+      <div class="anim-in">
+        <div class="budget-section">
+          <div class="budget-sh bsh-infra">Infrastructure</div>
+          <div class="budget-rows">
+            <div class="budget-row"><div><div class="bl">Serveur DEV + TEST</div><div class="bd">DigitalOcean · 2GB/1CPU · 50GB SSD · $12/mois · 5.5 mois</div></div><div class="ba">$66</div></div>
+            <div class="budget-row"><div><div class="bl">Serveur PROD</div><div class="bd">DigitalOcean Premium Intel · 4GB/2CPU NVMe · $32/mois · 1.5 mois</div></div><div class="ba">$48</div></div>
+            <div class="budget-row"><div><div class="bl">Expo EAS Build</div><div class="bd">Builds iOS & Android cloud · $19/mois × 6</div></div><div class="ba">$114</div></div>
+            <div class="budget-row"><div><div class="bl">Sentry monitoring</div><div class="bd">Erreurs production temps réel</div></div><span class="bfree">Gratuit MVP</span></div>
+            <div class="budget-row"><div><div class="bl">Firebase Cloud Messaging</div><div class="bd">Notifications push mobile</div></div><span class="bfree">Gratuit</span></div>
+            <div class="budget-row"><div><div class="bl">Stockage fichiers KYC</div><div class="bd">Sur serveur PROD · chiffré au repos et en transit</div></div><span class="bfree">Inclus serveur</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="anim-in">
+        <div class="budget-section">
+          <div class="budget-sh bsh-services">Services tiers</div>
+          <div class="budget-rows">
+            <div class="budget-row"><div><div class="bl">KYC — Sumsub</div><div class="bd">$1.35/vérification · 500 utilisateurs pilotes · vérification unique à l'inscription</div></div><div class="ba">$675</div></div>
+            <div class="budget-row"><div><div class="bl">SMS OTP — Twilio</div><div class="bd">$0.05/SMS · ~500 users · ~$46/mois estimé</div></div><div class="ba">$275</div></div>
+            <div class="budget-row"><div><div class="bl">Emails transactionnels</div><div class="bd">Mailgun / Sendgrid — plan gratuit suffisant MVP</div></div><span class="bfree">Gratuit MVP</span></div>
+            <div class="budget-row"><div><div class="bl">API taux de change</div><div class="bd">Fixer.io plan basique · $10/mois × 6</div></div><div class="ba">$60</div></div>
+            <div class="budget-row"><div><div class="bl">Paiements Europe — Stripe</div><div class="bd">1.5% + $0.25 par transaction</div></div><span class="bvar">Commission /tx</span></div>
+            <div class="budget-row"><div><div class="bl">Paiements Afrique — Flutterwave</div><div class="bd">~1.4% par transaction</div></div><span class="bvar">Commission /tx</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="anim-in">
+        <div class="budget-section">
+          <div class="budget-sh bsh-licences">Licences stores & accès</div>
+          <div class="budget-rows">
+            <div class="budget-row"><div><div class="bl">Apple Developer Account</div><div class="bd">App Store + TestFlight · $99/an</div></div><div class="ba">$99</div></div>
+            <div class="budget-row"><div><div class="bl">Google Play Store</div><div class="bd">Publication Android · one-shot</div></div><div class="ba">$25</div></div>
+            <div class="budget-row"><div><div class="bl">Partenaire EMI UK</div><div class="bd">Conformité FCA · Compte omnibus · Tarif à négocier</div></div><span class="bvar">À négocier</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="anim-in">
+        <div class="budget-section">
+          <div class="budget-sh bsh-team">Équipe</div>
+          <div class="budget-rows">
+            <div class="budget-row"><div><div class="bl">CTO / Cofondateur</div><div class="bd">Statut cofondateur — hors budget opérationnel</div></div><div class="ba" style="color:var(--text3);">—</div></div>
+            <div class="budget-row"><div><div class="bl">Développeur frontend freelance</div><div class="bd">500 000 FCFA/mois (~$810) · $810/mois · Paiement fin de mois · 6 mois · Droit britannique · Forme du contrat renegociable après livraison MVP</div></div><div class="ba">$4 860</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="budget-totals">
+      <div class="anim-in">
+        <div class="btotal-card">
+          <div class="btotal-label">Coût mensuel moyen</div>
+          <div class="btotal-val" style="color:var(--teal);">$1 013</div>
+          <div class="btotal-sub">Hors commissions variables</div>
+        </div>
+      </div>
+      <div class="anim-in">
+        <div class="btotal-card">
+          <div class="btotal-label">Total MVP — 6 mois</div>
+          <div class="btotal-val" style="color:var(--blue);">$6 122</div>
+          <div class="btotal-sub">Infra + licences + services + équipe</div>
+        </div>
+      </div>
+      <div class="anim-in">
+        <div class="btotal-card hl">
+          <div class="btotal-label">Budget recommandé</div>
+          <div class="btotal-val" style="color:var(--accent);">$7 350</div>
+          <div class="btotal-sub">+20% marge imprévus · EMI non inclus</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======== SLIDE 9 : RISQUES ======== -->
+<div class="slide" id="slide-9">
+  <div class="risks-wrap">
+    <div class="anim-in"><div class="slide-tag">Point 7</div></div>
+    <div class="anim-in"><h2 class="stitle">Analyse des <span class="accent">risques</span></h2></div>
+    <div class="risks-grid">
+      <div class="anim-in"><div class="risk-card rc-crit"><div class="risk-level rl-c">● Critique</div><div class="risk-title">Licence FCA non obtenue avant lancement</div><div class="risk-impact">Sans enregistrement FCA, N-zo ne peut pas légalement détenir les fonds des utilisateurs au UK.</div><div class="risk-mitigation">Démarches FCA dès le mois 1. Opérer via partenaire EMI UK déjà licencié pour le pilote MVP.</div></div></div>
+      <div class="anim-in"><div class="risk-card rc-crit"><div class="risk-level rl-c">● Critique</div><div class="risk-title">Bug dans le ledger ou l'escrow</div><div class="risk-impact">Un bug sur la logique financière peut entraîner une perte d'argent réel pour les utilisateurs. Le ledger est le module le plus sensible de toute l'application.</div><div class="risk-mitigation">Couverture de tests unitaires et d'intégration maximale sur chaque opération financière. Code review systématique du CTO. Validation complète en préprod avant tout déploiement en production.</div></div></div>
+      <div class="anim-in"><div class="risk-card rc-crit"><div class="risk-level rl-c">● Critique</div><div class="risk-title">Intégration paiements bloquée</div><div class="risk-impact">Stripe ou Flutterwave peuvent refuser sans documentation réglementaire. Sans paiements, pas de MVP.</div><div class="risk-mitigation">Initier les comptes Stripe et Flutterwave dès le mois 1. Prévoir Paystack en backup.</div></div></div>
+      <div class="anim-in"><div class="risk-card rc-mod"><div class="risk-level rl-m">● Modéré</div><div class="risk-title">Rejet App Store ou Play Store</div><div class="risk-impact">Apple peut rejeter une app financière sans documentation. 1 à 2 semaines de délai supplémentaire.</div><div class="risk-mitigation">Préparer la documentation réglementaire avant soumission. Soumettre dès la semaine 21.</div></div></div>
+      <div class="anim-in"><div class="risk-card rc-mod"><div class="risk-level rl-m">● Modéré</div><div class="risk-title">Absence de liquidité au lancement</div><div class="risk-impact">Sans masse critique, le matching ne trouve pas de contreparties. Expérience décevante dès le jour 1.</div><div class="risk-mitigation">Le change direct plateforme garantit l'expérience. Constituer une communauté pilote avant le lancement.</div></div></div>
+      <div class="anim-in"><div class="risk-card rc-mod"><div class="risk-level rl-m">● Modéré</div><div class="risk-title">Désengagement du dev frontend</div><div class="risk-impact">Un freelance remote peut perdre en motivation si les conditions de travail ne sont pas claires ou si le paiement n'est pas régulier. Un désengagement en cours de route compromet les délais et la qualité des livrables.</div><div class="risk-mitigation">Paiement ponctuel en fin de mois sans exception. Environnement de travail complet fourni dès le jour 1 — accès aux outils, repos, documentation, APIs. Contrat clair avec objectifs définis par sprint. Reconnaissance du travail livré.</div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ======== SLIDE 10 : QUESTIONS ======== -->
+<div class="slide" id="slide-10">
+  <div class="q-wrap">
+    <div class="anim-in"><div class="slide-tag" style="justify-content:center;">Pour débat & décisions</div></div>
+    <div class="anim-in"><h2 class="stitle" style="text-align:center;">Questions ouvertes &<br><span class="teal">points à trancher</span></h2></div>
+    <div class="q-grid">
+      <div class="anim-in"><div class="q-card"><div class="q-num">01</div><div class="q-title">Partenaire EMI UK — capacités exactes ?</div><div class="q-desc">Propose-t-il du BaaS avec émission de monnaie électronique et création de sous-comptes ? Couvre-t-il les corridors Afrique (XAF, XOF) ? Quel est son modèle tarifaire par transaction ou par mois ? La réponse impacte directement l'architecture du ledger et le budget.</div></div></div>
+      <div class="anim-in"><div class="q-card"><div class="q-num">02</div><div class="q-title">Stratégie réglementaire FCA</div><div class="q-desc">Opérer via l'EMI partenaire pour le MVP ou déposer directement une demande de licence FCA en parallèle du développement ? Les deux options ont des délais, des coûts et des implications opérationnelles très différentes.</div></div></div>
+      <div class="anim-in"><div class="q-card"><div class="q-num">03</div><div class="q-title">Disponibilité et fiabilité des APIs partenaires</div><div class="q-desc">Stripe, Flutterwave, Sumsub et le partenaire EMI sont au cœur du fonctionnement de N-zo. Quelles sont leurs garanties de disponibilité (SLA) ? Que se passe-t-il si l'une de ces APIs est indisponible en production — dépôts bloqués, KYC en attente ? Faut-il prévoir des mécanismes de fallback pour chaque service critique ?</div></div></div>
+      <div class="anim-in"><div class="q-card"><div class="q-num">04</div><div class="q-title">Politique de gestion des données utilisateurs</div><div class="q-desc">Les pièces d'identité, les données biométriques et les historiques de transactions sont des données hautement sensibles. Quelle est notre politique de conservation et de suppression des données KYC ? Combien de temps les conserver ? Comment gérer une demande de suppression d'un utilisateur au regard du RGPD et des exigences de la FCA ?</div></div></div>
+    </div>
+    <div class="anim-in closing">
+      <div class="closing-logo">N-zo</div>
+      <div class="closing-sub">N-zo · Roadmap MVP 2026 · Présentée par EPOME NZENGUE Hervé, Cofondateur & CTO</div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /slides -->
+
+<script>
+let current=0;
+const slides=document.querySelectorAll('.slide');
+const total=slides.length;
+const navDotsEl=document.getElementById('nav-dots');
+const progressBar=document.getElementById('progress-bar');
+const currentSlideEl=document.getElementById('current-slide');
+document.getElementById('total-slides').textContent=total;
+
+slides.forEach((_,i)=>{
+  const dot=document.createElement('button');
+  dot.className='nav-dot'+(i===0?' active':'');
+  dot.onclick=()=>goTo(i);
+  navDotsEl.appendChild(dot);
+});
+
+function updateSlide(){
+  slides.forEach((s,i)=>s.classList.toggle('active',i===current));
+  document.querySelectorAll('.nav-dot').forEach((d,i)=>d.classList.toggle('active',i===current));
+  progressBar.style.width=((current+1)/total*100)+'%';
+  currentSlideEl.textContent=current+1;
+}
+function goTo(i){current=Math.max(0,Math.min(total-1,i));updateSlide();}
+function next(){goTo(current+1);}
+function prev(){goTo(current-1);}
+
+document.getElementById('nav-next').onclick=next;
+document.getElementById('nav-prev').onclick=prev;
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight'||e.key===' '){e.preventDefault();next();}
+  if(e.key==='ArrowLeft'){e.preventDefault();prev();}
+});
+let touchStartX=0;
+document.addEventListener('touchstart',e=>{touchStartX=e.touches[0].clientX;});
+document.addEventListener('touchend',e=>{
+  const dx=e.changedTouches[0].clientX-touchStartX;
+  if(Math.abs(dx)>50){dx<0?next():prev();}
+});
+
+const cursor=document.getElementById('cursor');
+const cursorRing=document.getElementById('cursor-ring');
+document.addEventListener('mousemove',e=>{
+  cursor.style.left=e.clientX+'px';cursor.style.top=e.clientY+'px';
+  setTimeout(()=>{cursorRing.style.left=e.clientX+'px';cursorRing.style.top=e.clientY+'px';},80);
+});
+
+function toggleIter(header){
+  const body=header.nextElementSibling;
+  const arrow=header.querySelector('.rm-iter-arrow');
+  body.classList.toggle('open');
+  arrow.classList.toggle('open');
+}
+function toggleSprint(header){
+  const body=header.nextElementSibling;
+  const arrow=header.querySelector('.rm-sprint-arrow');
+  body.classList.toggle('open');
+  arrow.classList.toggle('open');
+  if(body.classList.contains('open'))header.closest('.rm-iter-body').scrollTop=header.offsetTop-16;
+}
+
+updateSlide();
+
+// Centrage dynamique : si le contenu tient dans la slide, on centre verticalement
+function adjustSlideAlignment(){
+  slides.forEach(slide=>{
+    const inner=slide.firstElementChild;
+    if(!inner)return;
+    // Reset
+    slide.style.justifyContent='';
+    // Si le contenu est plus petit que la fenêtre, on centre
+    requestAnimationFrame(()=>{
+      if(inner.scrollHeight<=slide.clientHeight){
+        slide.style.justifyContent='center';
+      } else {
+        slide.style.justifyContent='flex-start';
+        // Scroll to top quand on arrive sur la slide
+      }
+    });
+  });
+}
+
+// Scroll to top quand on change de slide
+const origUpdateSlide=updateSlide;
+function updateSlide(){
+  slides.forEach((s,i)=>s.classList.toggle('active',i===current));
+  document.querySelectorAll('.nav-dot').forEach((d,i)=>d.classList.toggle('active',i===current));
+  progressBar.style.width=((current+1)/total*100)+'%';
+  currentSlideEl.textContent=current+1;
+  // Scroll to top de la slide active
+  slides[current].scrollTop=0;
+  // Ajust alignment après animation
+  setTimeout(adjustSlideAlignment, 100);
+}
+
+window.addEventListener('resize', adjustSlideAlignment);
+setTimeout(adjustSlideAlignment, 200);
+</script>
+</body>
+</html>
