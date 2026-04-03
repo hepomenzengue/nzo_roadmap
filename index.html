@@ -135,7 +135,20 @@ h2.stitle{font-family:'Syne',sans-serif;font-size:clamp(32px,3.4vw,52px);font-we
 
 /* ==================== SLIDE 2 : PROBLEME ==================== */
 .prob-grid{display:grid;grid-template-columns:1fr 1fr;gap:52px;width:100%;max-width:1200px;align-items:start;}
+.prob-context{margin-top:16px;padding:16px 18px;border-radius:12px;background:var(--card);border:1px solid var(--border);box-shadow:0 2px 10px rgba(0,0,0,.04);}
+.prob-context-title{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:var(--blue);letter-spacing:.06em;text-transform:uppercase;margin-bottom:8px;}
+.prob-context p{font-size:15px;color:var(--text2);line-height:1.65;}
+.prob-context-tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;}
+.prob-ctag{font-size:13px;font-weight:600;padding:4px 10px;border-radius:100px;border:1px solid var(--blue-border);background:var(--blue-light);color:var(--blue);}
+.prob-context-ex{margin-top:10px;padding:10px 12px;border-radius:8px;background:var(--bg3);color:var(--text2);}
 .prob-items{display:flex;flex-direction:column;gap:16px;margin-top:28px;}
+.prob-right-stack{display:flex;flex-direction:column;gap:14px;}
+.prob-mini-title{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:var(--text2);letter-spacing:.04em;text-transform:uppercase;}
+.prob-items-tight{margin-top:0;gap:10px;}
+.prob-item.compact{padding:14px 16px;}
+.prob-item.compact .prob-num{font-size:28px;}
+.prob-item.compact .prob-text strong{font-size:16px;}
+.prob-item.compact .prob-text p{font-size:14px;line-height:1.55;}
 .prob-item{display:flex;gap:16px;padding:18px 20px;border-radius:12px;background:var(--card);border:1px solid var(--border);border-left:3px solid transparent;transition:all .3s;}
 .prob-item:hover{border-left-color:var(--accent);transform:translateX(4px);}
 .prob-num{font-family:'Syne',sans-serif;font-size:34px;font-weight:800;color:var(--accent);opacity:.25;line-height:1;flex-shrink:0;}
@@ -204,6 +217,44 @@ h2.stitle{font-family:'Syne',sans-serif;font-size:clamp(32px,3.4vw,52px);font-we
 .key-note{border-radius:8px;padding:10px 14px;background:var(--green-light);border-left:3px solid var(--green);font-size:14px;color:#1a5e2e;line-height:1.6;margin-top:10px;}
 .scope-note{border-radius:8px;padding:10px 14px;background:var(--amber-light);border-left:3px solid var(--amber);font-size:14px;color:#7c5c00;line-height:1.6;margin-top:8px;}
 .connector-v{width:2px;height:6px;background:var(--border2);margin-left:13px;}
+
+/* ==================== SLIDE 3c : POURQUOI N-ZO ==================== */
+#slide-3c{background:#f7f8fc;}
+.pz-wrap{width:100%;max-width:1180px;}
+.pz-sub{margin-top:10px;font-size:16px;color:var(--text2);line-height:1.65;max-width:900px;}
+.pz-grid{margin-top:24px;display:grid;grid-template-columns:minmax(0,1fr) 140px minmax(0,1fr);gap:16px;align-items:start;}
+.pz-col{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px 14px 14px;box-shadow:0 8px 24px rgba(32,41,66,.05);}
+.pz-col-head{font-family:'Syne',sans-serif;font-size:20px;font-weight:700;letter-spacing:-.01em;margin-bottom:12px;}
+.pz-col-head-weak{color:var(--red);}
+.pz-col-head-strong{color:var(--teal);}
+.pz-list{display:flex;flex-direction:column;gap:10px;}
+.pz-item{width:100%;appearance:none;-webkit-appearance:none;border:1px solid var(--border);border-radius:12px;background:#fff;padding:12px 12px 12px 10px;display:flex;gap:10px;align-items:flex-start;text-align:left;cursor:pointer;transition:transform .22s,border-color .22s,box-shadow .22s;font-family:'Plus Jakarta Sans',sans-serif;}
+.pz-item:hover{transform:translateY(-2px);box-shadow:0 8px 18px rgba(31,41,55,.08);}
+.pz-item:focus-visible{outline:2px solid var(--blue);outline-offset:2px;}
+.pz-weak{border-left:4px solid var(--red);}
+.pz-weak:hover{border-color:var(--red-border);}
+.pz-strong{border-left:4px solid var(--teal);}
+.pz-strong:hover{border-color:var(--teal-border);}
+.pz-icon{width:26px;height:26px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;flex-shrink:0;margin-top:1px;}
+.pz-weak .pz-icon{background:var(--red-light);color:var(--red);}
+.pz-strong .pz-icon{background:var(--teal-light);color:#0a5e3a;}
+.pz-item-main{display:block;font-size:15px;font-weight:700;color:var(--text);margin-bottom:3px;line-height:1.35;}
+.pz-item-sub{display:block;font-size:14px;color:var(--text2);line-height:1.5;}
+.pz-bridge{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;min-height:100%;}
+.pz-arrow{width:84px;height:84px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--accent-light),var(--teal-light));border:1.5px solid var(--accent-border);font-family:'Syne',sans-serif;font-size:36px;color:var(--accent);}
+.pz-bridge-label{text-align:center;font-size:14px;font-weight:600;color:var(--text2);line-height:1.45;padding:0 6px;}
+.pz-popover{position:fixed;left:0;top:0;max-width:340px;padding:12px 14px;border-radius:12px;border:1px solid var(--border);background:#fff;color:var(--text2);font-size:14px;line-height:1.55;box-shadow:0 18px 35px rgba(27,33,54,.16);pointer-events:none;opacity:0;visibility:hidden;transform:translateY(6px);transition:opacity .2s ease,transform .2s ease,visibility .2s;z-index:1300;}
+.pz-popover.visible{opacity:1;visibility:visible;transform:translateY(0);}
+.pz-popover-weak{background:#fff5f7;border-color:#ffc9d8;color:#8b2844;}
+.pz-popover-strong{background:#ebfdf6;border-color:#9fe5cc;color:#0f6b4a;}
+
+@media (max-width:1080px){
+  #slide-3c{padding:44px 28px 72px;}
+  .pz-grid{grid-template-columns:1fr;gap:12px;}
+  .pz-bridge{flex-direction:row;}
+  .pz-arrow{width:62px;height:62px;font-size:28px;transform:rotate(90deg);}
+  .pz-col-head{font-size:18px;}
+}
 
 /* ==================== SLIDE 4 : ARCHITECTURE ==================== */
 .arch-wrap{width:100%;max-width:1100px;}
@@ -418,7 +469,7 @@ h2.stitle{font-family:'Syne',sans-serif;font-size:clamp(32px,3.4vw,52px);font-we
 <div class="cursor-ring" id="cursor-ring"></div>
 <div class="progress-bar" id="progress-bar"></div>
 <div class="nav-dots" id="nav-dots"></div>
-<div class="slide-counter"><span id="current-slide">1</span> / <span id="total-slides">11</span></div>
+<div class="slide-counter"><span id="current-slide">1</span> / <span id="total-slides">12</span></div>
 <button class="nav-arrow nav-prev" id="nav-prev">←</button>
 <button class="nav-arrow nav-next" id="nav-next">→</button>
 <div class="kb-hint"><span class="key">←</span><span class="key">→</span> naviguer · <span class="key">Espace</span> suivant</div>
@@ -482,39 +533,42 @@ h2.stitle{font-family:'Syne',sans-serif;font-size:clamp(32px,3.4vw,52px);font-we
 <div class="slide" id="slide-2">
   <div class="prob-grid">
     <div>
-      <div class="anim-in"><div class="slide-tag">Analyse du marché</div></div>
-      <div class="anim-in"><h2 class="stitle">Le problème que<br><span class="accent">N-zo résout</span></h2></div>
-      <div class="prob-items">
-        <div class="anim-in">
-          <div class="prob-item">
-            <div class="prob-num">01</div>
-            <div class="prob-text"><strong>Taux bancaires défavorables</strong><p>Les banques imposent des marges de 3 à 8% sur les devises africaines. N-zo permet aux utilisateurs de négocier leurs propres taux.</p></div>
+      <div class="anim-in"><div class="slide-tag">Constat terrain</div></div>
+      <div class="anim-in"><h2 class="stitle">Un problème de change qui crée<br><span class="accent">des impacts concrets</span></h2></div>
+      <div class="anim-in">
+        <div class="prob-context">
+          <p>Du change entre l'Afrique et l'Europe pour des besoins du quotidien: soutien familial, frais d'études, paiements fournisseurs et dépenses opérationnelles de petites structures.</p>
+          <div class="prob-context-tags">
+            <span class="prob-ctag">Particuliers & diaspora</span>
+            <span class="prob-ctag">Étudiants & familles</span>
+            <span class="prob-ctag">PME & indépendants</span>
           </div>
-        </div>
-        <div class="anim-in">
-          <div class="prob-item">
-            <div class="prob-num">02</div>
-            <div class="prob-text"><strong>Afrique → Europe : corridor inexploité</strong><p>Les solutions existantes ne couvrent que le sens Europe → Afrique. N-zo couvre les deux directions grâce au modèle P2P.</p></div>
-          </div>
-        </div>
-        <div class="anim-in">
-          <div class="prob-item">
-            <div class="prob-num">03</div>
-            <div class="prob-text"><strong>Marché fragmenté et opaque</strong><p>Pas de marketplace transparente pour les devises africaines. N-zo crée un marché visible, compétitif et traçable.</p></div>
-          </div>
-        </div>
+       </div>
       </div>
     </div>
     <div class="anim-in">
-      <div class="solution-box">
-        <div class="sol-title">La solution <span class="accent">N-zo</span></div>
-        <div class="sol-point"><div class="sol-dot"></div><p><strong>Modèle P2P pur</strong> — les utilisateurs publient leurs offres, le système les matche. Deux besoins opposés se rencontrent, aucun intermédiaire dans la transaction.</p></div>
-        <div class="sol-point"><div class="sol-dot"></div><p><strong>Ledger interne</strong> — miroir virtuel exact des opérateurs financiers partenaires. Les soldes s'ajustent en interne. Les fonds réels ne bougent qu'au dépôt.</p></div>
-        <div class="sol-point"><div class="sol-dot"></div><p><strong>Change direct fallback</strong> — si aucun match, N-zo propose le change au taux du marché. Service disponible en permanence.</p></div>
-        <div class="sol-point"><div class="sol-dot"></div><p><strong>Double corridor couvert</strong> — diaspora africaine en Europe ET entrepreneurs africains. Les deux sens sont opérationnels dès le MVP.</p></div>
-        <div class="eco-box">
-          <div class="eco-title">Modèle économique</div>
-          <div class="eco-desc">Commission sur chaque transaction P2P + commission sur le change direct plateforme. <strong>Taux de commission à définir</strong> — fera l'objet d'une décision d'équipe.</div>
+      <div class="prob-right-stack">
+        <div class="solution-box">
+          <div class="sol-title">Impacts business & utilisateur</div>
+          <div class="sol-point"><div class="sol-dot"></div><p><strong>Perte de valeur</strong> — une partie du budget est absorbée par les frictions de change au lieu d'être utilisée pour l'objectif réel (famille, études, activité pro).</p></div>
+          <div class="sol-point"><div class="sol-dot"></div><p><strong>Cashflow ralenti</strong> — des retards de transfert perturbent les dépenses urgentes et la planification opérationnelle des particuliers comme des PME.</p></div>
+          <div class="sol-point"><div class="sol-dot"></div><p><strong>Adoption freinée</strong> — sans sécurité ni visibilité claire sur le taux final, beaucoup d'utilisateurs évitent les canaux digitaux ou reviennent à l'informel.</p></div>
+          <div class="sol-point"><div class="sol-dot"></div><p><strong>Opportunité marché</strong> — un espace existe pour une plateforme qui réduit ces frictions et sécurise l'expérience de bout en bout.</p></div>
+        </div>
+        <div class="prob-mini-title">Frictions observées sur le terrain</div>
+        <div class="prob-items prob-items-tight">
+          <div class="prob-item compact">
+            <div class="prob-num">01</div>
+            <div class="prob-text"><strong>Coût élevé sur chaque transfert</strong><p>Marges de change + frais fixes rognent le montant final reçu. Sur les petits montants, l'impact est immédiat sur le pouvoir d'achat.</p></div>
+          </div>
+          <div class="prob-item compact">
+            <div class="prob-num">02</div>
+            <div class="prob-text"><strong>Délais et incertitude d'exécution</strong><p>Entre validation manuelle, disponibilité des réseaux et confirmations tardives, une opération simple peut prendre des heures, voire plus.</p></div>
+          </div>
+          <div class="prob-item compact">
+            <div class="prob-num">03</div>
+            <div class="prob-text"><strong>Risque de confiance côté informel</strong><p>Quand les échanges sortent d'un cadre sécurisé, les litiges, arnaques et pertes sont fréquents, sans mécanisme d'arbitrage solide.</p></div>
+          </div>
         </div>
       </div>
     </div>
@@ -697,6 +751,64 @@ h2.stitle{font-family:'Syne',sans-serif;font-size:clamp(32px,3.4vw,52px);font-we
   </div>
 </div>
 
+<!-- ======== SLIDE 3c : POURQUOI N-ZO ======== -->
+<div class="slide" id="slide-3c">
+  <div class="pz-wrap">
+    <div class="anim-in"><div class="slide-tag">Positionnement marché</div></div>
+    <div class="anim-in"><h2 class="stitle">Pourquoi <span class="accent">N-zo</span> ?</h2></div>
+    <div class="anim-in"><p class="pz-sub">La concurrence laisse des frictions majeures pour l'utilisateur final. N-zo répond point par point avec un modèle automatisé, bilatéral et sécurisé.</p></div>
+    <div class="pz-grid">
+      <div class="pz-col">
+        <div class="anim-in" style="animation-delay:.24s;"><div class="pz-col-head pz-col-head-weak">Les failles de la concurrence</div></div>
+        <div class="pz-list">
+          <button class="pz-item pz-weak anim-in" type="button" style="animation-delay:.30s;" data-type="weak" data-tip="Sur Binance P2P, le paiement se fait hors plateforme. Cela expose au risque de contrepartie, rallonge souvent l'exécution à 10-30 minutes et génère des litiges manuels.">
+            <span class="pz-icon">✗</span><span><span class="pz-item-main">Binance P2P</span><span class="pz-item-sub">Paiement hors plateforme, risque de contrepartie, lenteur, litiges manuels.</span></span>
+          </button>
+          <button class="pz-item pz-weak anim-in" type="button" style="animation-delay:.36s;" data-type="weak" data-tip="Kyshi s'oriente vers le B2B. Le grand public n'est plus le cœur du produit, ce qui laisse un vide pour les particuliers qui veulent échanger directement.">
+            <span class="pz-icon">✗</span><span><span class="pz-item-main">Kyshi</span><span class="pz-item-sub">Pivot B2B, abandon progressif du grand public.</span></span>
+          </button>
+          <button class="pz-item pz-weak anim-in" type="button" style="animation-delay:.42s;" data-type="weak" data-tip="Wise et Remitano couvrent surtout le corridor Europe vers Afrique. Le besoin inverse Afrique vers Europe reste mal servi pour un vrai échange bilatéral.">
+            <span class="pz-icon">✗</span><span><span class="pz-item-main">Wise / Remitano</span><span class="pz-item-sub">Couverture unidirectionnelle Europe → Afrique.</span></span>
+          </button>
+          <button class="pz-item pz-weak anim-in" type="button" style="animation-delay:.48s;" data-type="weak" data-tip="Le marché informel sur WhatsApp et Telegram repose sur la confiance brute: pas d'escrow, pas de garde-fous, pas de traçabilité et donc un fort risque d'arnaque.">
+            <span class="pz-icon">✗</span><span><span class="pz-item-main">WhatsApp / Telegram informel</span><span class="pz-item-sub">Aucune sécurité, aucun escrow, aucune traçabilité.</span></span>
+          </button>
+        </div>
+      </div>
+      <div class="pz-bridge anim-in" style="animation-delay:.32s;">
+        <div class="pz-arrow">→</div>
+        <div class="pz-bridge-label">N-zo répond à chaque faille</div>
+      </div>
+      <div class="pz-col">
+        <div class="anim-in" style="animation-delay:.24s;"><div class="pz-col-head pz-col-head-strong">Les forces N-zo</div></div>
+        <div class="pz-list">
+          <button class="pz-item pz-strong anim-in" type="button" style="animation-delay:.30s;" data-type="strong" data-tip="Le paiement est 100% automatisé dans le ledger. Aucun flux hors plateforme, aucune validation manuelle: exécution native, contrôlée et auditable.">
+            <span class="pz-icon">✓</span><span><span class="pz-item-main">Ledger 100% automatique</span><span class="pz-item-sub">Zéro paiement hors plateforme, zéro intervention humaine.</span></span>
+          </button>
+          <button class="pz-item pz-strong anim-in" type="button" style="animation-delay:.36s;" data-type="strong" data-tip="N-zo couvre les deux sens de circulation des fonds: Afrique vers Europe et Europe vers Afrique, ce qui permet de matcher des besoins opposés en continu.">
+            <span class="pz-icon">✓</span><span><span class="pz-item-main">Double corridor</span><span class="pz-item-sub">Afrique → Europe et Europe → Afrique.</span></span>
+          </button>
+          <button class="pz-item pz-strong anim-in" type="button" style="animation-delay:.42s;" data-type="strong" data-tip="N-zo reste en fiat pur. L'utilisateur échange directement XAF, XOF, EUR, GBP sans conversion intermédiaire vers USDT, BTC ou autre crypto.">
+            <span class="pz-icon">✓</span><span><span class="pz-item-main">Fiat pur sans crypto</span><span class="pz-item-sub">Échange direct XAF/XOF/EUR/GBP.</span></span>
+          </button>
+          <button class="pz-item pz-strong anim-in" type="button" style="animation-delay:.48s;" data-type="strong" data-tip="L'exécution est atomique et irréversible en quelques secondes: soit tous les mouvements passent, soit aucun, ce qui supprime les états intermédiaires risqués.">
+            <span class="pz-icon">✓</span><span><span class="pz-item-main">Exécution en quelques secondes</span><span class="pz-item-sub">Atomique et irréversible.</span></span>
+          </button>
+          <button class="pz-item pz-strong anim-in" type="button" style="animation-delay:.54s;" data-type="strong" data-tip="La formation du prix reste entre particuliers: chaque utilisateur propose son taux, négocie et choisit ses conditions dans un cadre sécurisé.">
+            <span class="pz-icon">✓</span><span><span class="pz-item-main">Négociation des taux P2P</span><span class="pz-item-sub">Chaque utilisateur fixe son propre taux.</span></span>
+          </button>
+          <button class="pz-item pz-strong anim-in" type="button" style="animation-delay:.60s;" data-type="strong" data-tip="N-zo formalise le marché informel avec des garde-fous de conformité: sécurité opérationnelle, escrow virtuel et contrôles KYC/AML intégrés.">
+            <span class="pz-icon">✓</span><span><span class="pz-item-main">Formalisation du marché informel</span><span class="pz-item-sub">Sécurité, escrow virtuel, conformité KYC/AML.</span></span>
+          </button>
+          <button class="pz-item pz-strong anim-in" type="button" style="animation-delay:.66s;" data-type="strong" data-tip="Même sans contrepartie immédiate, le fallback de change direct plateforme garantit la continuité de service et évite l'échec transactionnel côté utilisateur.">
+            <span class="pz-icon">✓</span><span><span class="pz-item-main">Change direct plateforme</span><span class="pz-item-sub">Fallback garanti même sans contrepartie disponible.</span></span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- ======== SLIDE 4 : ARCHITECTURE ======== -->
 <div class="slide" id="slide-4">
   <div class="arch-wrap">
@@ -776,7 +888,7 @@ h2.stitle{font-family:'Syne',sans-serif;font-size:clamp(32px,3.4vw,52px);font-we
 <!-- ======== SLIDE 5 : STACK & INFRA ======== -->
 <div class="slide" id="slide-5">
   <div class="stack-wrap">
-    <div class="anim-in"><div class="slide-tag">Point 3</div></div>
+    <div class="anim-in"><div class="slide-tag">Point 4</div></div>
     <div class="anim-in"><h2 class="stitle" style="font-size:clamp(24px,2.5vw,40px);">Choix des technologies &<br><span class="accent">organisation de l'infrastructure</span></h2></div>
     <div class="anim-in">
       <div class="infra-matrix">
@@ -855,7 +967,7 @@ h2.stitle{font-family:'Syne',sans-serif;font-size:clamp(32px,3.4vw,52px);font-we
 <!-- ======== SLIDE 6 : EQUIPE ======== -->
 <div class="slide" id="slide-6">
   <div class="team-wrap">
-    <div class="anim-in"><div class="slide-tag">Point 4</div></div>
+    <div class="anim-in"><div class="slide-tag">Point 5</div></div>
     <div class="anim-in"><h2 class="stitle">L'équipe technique <span class="teal">MVP</span></h2></div>
     <div class="team-grid">
       <div class="anim-in">
@@ -915,7 +1027,7 @@ h2.stitle{font-family:'Syne',sans-serif;font-size:clamp(32px,3.4vw,52px);font-we
 <!-- ======== SLIDE 7 : ROADMAP ======== -->
 <div class="slide" id="slide-7">
   <div class="rm-wrap">
-    <div class="anim-in"><div class="slide-tag">Point 5</div></div>
+    <div class="anim-in"><div class="slide-tag">Point 6</div></div>
     <div class="anim-in"><h2 class="stitle" style="font-size:clamp(24px,2.5vw,40px);">Roadmap — 5 itérations · <span class="accent">22 semaines</span></h2></div>
     <div class="anim-in" style="display:flex;gap:16px;margin:8px 0;font-size:13px;color:var(--text2);">
       <span>★ Fonctionnalité principale</span>
@@ -1316,7 +1428,7 @@ h2.stitle{font-family:'Syne',sans-serif;font-size:clamp(32px,3.4vw,52px);font-we
 <!-- ======== SLIDE 8 : BUDGET ======== -->
 <div class="slide" id="slide-8">
   <div class="budget-wrap">
-    <div class="anim-in"><div class="slide-tag">Point 6</div></div>
+    <div class="anim-in"><div class="slide-tag">Point 7</div></div>
     <div class="anim-in"><h2 class="stitle">Estimation budgétaire <span class="teal">MVP — 6 mois</span></h2></div>
     <div class="budget-grid">
       <div class="anim-in">
@@ -1394,7 +1506,7 @@ h2.stitle{font-family:'Syne',sans-serif;font-size:clamp(32px,3.4vw,52px);font-we
 <!-- ======== SLIDE 9 : RISQUES ======== -->
 <div class="slide" id="slide-9">
   <div class="risks-wrap">
-    <div class="anim-in"><div class="slide-tag">Point 7</div></div>
+    <div class="anim-in"><div class="slide-tag">Point 8</div></div>
     <div class="anim-in"><h2 class="stitle">Analyse des <span class="accent">risques</span></h2></div>
     <div class="risks-grid">
       <div class="anim-in"><div class="risk-card rc-crit"><div class="risk-level rl-c">● Critique</div><div class="risk-title">Licence FCA non obtenue avant lancement</div><div class="risk-impact">Sans enregistrement FCA, N-zo ne peut pas légalement détenir les fonds des utilisateurs au UK.</div><div class="risk-mitigation">Démarches FCA dès le mois 1. Opérer via partenaire EMI UK déjà licencié pour le pilote MVP.</div></div></div>
@@ -1426,6 +1538,7 @@ h2.stitle{font-family:'Syne',sans-serif;font-size:clamp(32px,3.4vw,52px);font-we
 </div>
 
 </div><!-- /slides -->
+<div class="pz-popover" id="pz-popover" aria-hidden="true"></div>
 
 <script>
 let current=0;
@@ -1472,6 +1585,60 @@ document.addEventListener('mousemove',e=>{
   cursor.style.left=e.clientX+'px';cursor.style.top=e.clientY+'px';
   setTimeout(()=>{cursorRing.style.left=e.clientX+'px';cursorRing.style.top=e.clientY+'px';},80);
 });
+
+const pzPopover=document.getElementById('pz-popover');
+const pzItems=document.querySelectorAll('.pz-item');
+if(pzPopover&&pzItems.length){
+  let activePzItem=null;
+  const popPad=14;
+  const popOffset=18;
+
+  function placePopover(x,y){
+    const rect=pzPopover.getBoundingClientRect();
+    let left=x+popOffset;
+    let top=y-rect.height-popOffset;
+    if(left+rect.width+popPad>window.innerWidth)left=x-rect.width-popOffset;
+    if(left<popPad)left=popPad;
+    if(top<popPad)top=y+popOffset;
+    if(top+rect.height+popPad>window.innerHeight)top=window.innerHeight-rect.height-popPad;
+    if(top<popPad)top=popPad;
+    pzPopover.style.left=left+'px';
+    pzPopover.style.top=top+'px';
+  }
+
+  function showPopover(item,evt){
+    const tip=item.dataset.tip;
+    if(!tip)return;
+    activePzItem=item;
+    pzPopover.textContent=tip;
+    pzPopover.classList.remove('pz-popover-weak','pz-popover-strong');
+    pzPopover.classList.add(item.dataset.type==='weak'?'pz-popover-weak':'pz-popover-strong');
+    pzPopover.classList.add('visible');
+    pzPopover.setAttribute('aria-hidden','false');
+    const rect=item.getBoundingClientRect();
+    const x=evt&&typeof evt.clientX==='number'?evt.clientX:rect.left+rect.width/2;
+    const y=evt&&typeof evt.clientY==='number'?evt.clientY:rect.top+rect.height/2;
+    placePopover(x,y);
+  }
+
+  function hidePopover(item){
+    if(item&&activePzItem!==item)return;
+    activePzItem=null;
+    pzPopover.classList.remove('visible');
+    pzPopover.setAttribute('aria-hidden','true');
+  }
+
+  pzItems.forEach(item=>{
+    item.addEventListener('mouseenter',e=>showPopover(item,e));
+    item.addEventListener('mousemove',e=>{if(activePzItem===item)placePopover(e.clientX,e.clientY);});
+    item.addEventListener('mouseleave',()=>hidePopover(item));
+    item.addEventListener('focus',()=>showPopover(item));
+    item.addEventListener('blur',()=>hidePopover(item));
+  });
+
+  document.addEventListener('scroll',()=>hidePopover(),true);
+  window.addEventListener('resize',()=>hidePopover());
+}
 
 function toggleIter(header){
   const body=header.nextElementSibling;
